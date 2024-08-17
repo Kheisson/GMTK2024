@@ -50,6 +50,7 @@ namespace _Scripts.Ui.Popups
 
             var currentPopup = _popups.Pop();
             await currentPopup.HideAsync();
+            OnPopupClose?.Invoke();
             currentPopup.gameObject.SetActive(false);
             Object.Destroy(currentPopup.gameObject);
 
@@ -57,8 +58,6 @@ namespace _Scripts.Ui.Popups
             {
                 _popups.Peek().gameObject.SetActive(true);
             }
-            
-            OnPopupClose?.Invoke();
         }
         
         private bool IsPopupOpen(PopupView popupPrefab)

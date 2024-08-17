@@ -16,14 +16,18 @@ namespace _Scripts.Ui.Popups
             canvasGroup.alpha = 0;
             popupTransform.anchoredPosition = new Vector2(0, Screen.height * 2f);
             
-            await canvasGroup.DOFade(1, FADE_DURATION).SetEase(Ease.InQuad);
-            await popupTransform.DOAnchorPos(Vector2.zero, MOVE_DURATION).SetEase(Ease.OutBack).AsyncWaitForCompletion();
+            var fadeTask = canvasGroup.DOFade(1, FADE_DURATION).SetEase(Ease.InQuad).AsyncWaitForCompletion().AsUniTask();
+            var moveTask = popupTransform.DOAnchorPos(Vector2.zero, MOVE_DURATION).SetEase(Ease.OutBack).AsyncWaitForCompletion().AsUniTask();
+            
+            await UniTask.WhenAll(fadeTask, moveTask);
         }
 
         public async UniTask HideAsync()
         {
-            await popupTransform.DOAnchorPos(new Vector2(0, -Screen.height * 2f), MOVE_DURATION).SetEase(Ease.InBack).AsyncWaitForCompletion();
-            await canvasGroup.DOFade(0, FADE_DURATION).SetEase(Ease.OutQuad);
+            var moveTask = popupTransform.DOAnchorPos(new Vector2(0, -Screen.height * 2f), MOVE_DURATION).SetEase(Ease.InBack).AsyncWaitForCompletion().AsUniTask();
+            var fadeTask = canvasGroup.DOFade(0, FADE_DURATION).SetEase(Ease.OutQuad).AsyncWaitForCompletion().AsUniTask();
+            
+            await UniTask.WhenAll(moveTask, fadeTask);
         }
     }
 }

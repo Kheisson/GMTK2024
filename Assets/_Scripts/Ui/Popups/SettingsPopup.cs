@@ -1,4 +1,3 @@
-using System;
 using _Scripts.Audio;
 using _Scripts.Infra;
 using UnityEngine;
@@ -41,8 +40,6 @@ namespace _Scripts.Ui.Popups
         {
             if (_audioManager == null) return;
             
-            _audioManager.LoadSettings();
-
             var musicVolume = _audioManager.GetMusicVolume();
             var sfxVolume = _audioManager.GetSfxVolume();
 
@@ -55,7 +52,7 @@ namespace _Scripts.Ui.Popups
 
         private async void OnCloseButtonClick()
         {
-            Time.timeScale = 1; 
+            Time.timeScale = 1;
             var popupManager = ServiceLocator.GetService<PopupManager>();
             await popupManager.ClosePopupAsync();
         }
@@ -64,9 +61,11 @@ namespace _Scripts.Ui.Popups
         {
             if (_audioManager != null)
             {
-                bool isOn = !_audioManager.IsMusicOn();
-                _audioManager.ToggleMusic(isOn);
-                UpdateMusicButtonIcon(isOn);
+                _audioManager.ToggleMusic();
+                var isMusicOn = _audioManager.IsMusicOn();
+                UpdateMusicButtonIcon(isMusicOn);
+                musicSlider.value = _audioManager.GetMusicVolume(); 
+                AudioManager.SaveSettings();
             }
         }
 
@@ -74,9 +73,11 @@ namespace _Scripts.Ui.Popups
         {
             if (_audioManager != null)
             {
-                bool isOn = !_audioManager.IsSfxOn();
-                _audioManager.ToggleSfx(isOn);
-                UpdateSfxButtonIcon(isOn);
+                _audioManager.ToggleSfx();
+                bool isSfxOn = _audioManager.IsSfxOn();
+                UpdateSfxButtonIcon(isSfxOn);
+                sfxSlider.value = _audioManager.GetSfxVolume();
+                AudioManager.SaveSettings();
             }
         }
 
@@ -85,7 +86,8 @@ namespace _Scripts.Ui.Popups
             if (_audioManager != null)
             {
                 _audioManager.SetMusicVolume(value);
-                UpdateMusicButtonIcon(value > 0);
+                UpdateMusicButtonIcon(value > 0.0001f);
+                AudioManager.SaveSettings();
             }
         }
 
@@ -94,7 +96,8 @@ namespace _Scripts.Ui.Popups
             if (_audioManager != null)
             {
                 _audioManager.SetSfxVolume(value);
-                UpdateSfxButtonIcon(value > 0);
+                UpdateSfxButtonIcon(value > 0.0001f);
+                AudioManager.SaveSettings();
             }
         }
 

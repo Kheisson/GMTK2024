@@ -29,6 +29,11 @@ namespace _Scripts.Infra
             }
         }
 
+        private void Start()
+        {
+            ServiceLocator.GetService<AudioManager>().LoadSettings();
+        }
+
         private async UniTask InitializeServices()
         {
             var audioManager = new AudioManager(audioMixer);
@@ -36,8 +41,6 @@ namespace _Scripts.Infra
 
             ServiceLocator.RegisterService(audioManager);
             ServiceLocator.RegisterService(popupManager);
-
-            audioManager.LoadSettings();
             
             await InitializeUiManagerAsync();
         }

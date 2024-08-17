@@ -12,17 +12,22 @@ namespace _Scripts.Audio
         private const string MUSIC_VOLUME_KEY = "MusicVolume";
         private const string SFX_VOLUME_KEY = "SfxVolume";
         private const string POOLED_AUDIO_SOURCE_NAME = "PooledAudioSource";
+        private const float MUTE_DB_LEVEL = -80f; // Mute level in decibels
+        private const float MIN_VOLUME_THRESHOLD = 0.0001f; // Minimum threshold to consider sound on
 
         private readonly AudioMixer _audioMixer;
         private readonly List<AudioSource> _audioSources = new List<AudioSource>();
         private readonly Queue<AudioSource> _audioSourcePool = new Queue<AudioSource>();
         private AudioClipCollection _audioClipCollection;
-        
+        private float _previousMusicVolume = 1f;
+        private float _previousSfxVolume = 1f;
+
         public AudioManager(AudioMixer audioMixer)
         {
             _audioMixer = audioMixer;
             LoadClipCollection();
             InitializePool();
+            LoadSettings();
         }
 
         private void InitializePool(int poolSize = 10)
@@ -33,7 +38,7 @@ namespace _Scripts.Audio
                 _audioSourcePool.Enqueue(newSource);
             }
         }
-        
+
         private void LoadClipCollection()
         {
             _audioClipCollection = Resources.Load<AudioClipCollection>(nameof(AudioClipCollection));
@@ -53,7 +58,7 @@ namespace _Scripts.Audio
             {
                 return _audioSourcePool.Dequeue();
             }
-            
+
             return CreateAnAudioSource();
         }
 
@@ -66,69 +71,126 @@ namespace _Scripts.Audio
 
         public float GetMusicVolume()
         {
-            _audioMixer.GetFloat(MUSIC_VOLUME_KEY, out var volume);
-            return Mathf.Pow(10, volume / 20);
+            if (_audioMixer.GetFloat(MUSIC_VOLUME_KEY, out var volume))
+            {
+                return Mathf.Approximately(volume, MUTE_DB_LEVEL) ? 0f : Mathf.Pow(10, volume / 20f);
+            }
+            
+            return 1f;
         }
 
         public void SetMusicVolume(float volume)
         {
-            _audioMixer.SetFloat(MUSIC_VOLUME_KEY, Mathf.Log10(volume) * 20);
+            Debug.Log($"Setting music volume: {volume}");
+            
+            if (volume > MIN_VOLUME_THRESHOLD)
+            {
+                _previousMusicVolume = volume;
+                _audioMixer.SetFloat(MUSIC_VOLUME_KEY, Mathf.Log10(volume) * 20f);
+            }
+            else
+            {
+                _audioMixer.SetFloat(MUSIC_VOLUME_KEY, MUTE_DB_LEVEL);
+            }
+            
             PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, volume);
         }
-        
+
         public float GetSfxVolume()
         {
-            _audioMixer.GetFloat(SFX_VOLUME_KEY, out var volume);
-            return Mathf.Pow(10, volume / 20);
+            if (_audioMixer.GetFloat(SFX_VOLUME_KEY, out var volume))
+            {
+                return Mathf.Approximately(volume, MUTE_DB_LEVEL) ? 0f : Mathf.Pow(10, volume / 20f);
+            }
+            
+            return 1f;
         }
 
         public void SetSfxVolume(float volume)
         {
-            _audioMixer.SetFloat(SFX_VOLUME_KEY, Mathf.Log10(volume) * 20);
+            Debug.Log($"Setting SFX volume: {volume}");
+            
+            if (volume > MIN_VOLUME_THRESHOLD)
+            {
+                _previousSfxVolume = volume;
+                _audioMixer.SetFloat(SFX_VOLUME_KEY, Mathf.Log10(volume) * 20f);
+            }
+            else
+            {
+                _audioMixer.SetFloat(SFX_VOLUME_KEY, MUTE_DB_LEVEL);
+            }
             PlayerPrefs.SetFloat(SFX_VOLUME_KEY, volume);
         }
 
-        public void ToggleMusic(bool isOn)
+        public void ToggleMusic()
         {
-            SetMusicVolume(isOn ? PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 1f) : 0f);
+            if (IsMusicOn())
+            {
+                Debug.Log($"Toggling music off");
+                PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, 0f);
+                SetMusicVolume(0f);
+            }
+            else
+            {
+                Debug.Log($"Toggling music on");
+                SetMusicVolume(_previousMusicVolume > MIN_VOLUME_THRESHOLD ? _previousMusicVolume : 1f);
+            }
         }
 
-        public void ToggleSfx(bool isOn)
+        public void ToggleSfx()
         {
-            SetSfxVolume(isOn ? PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 1f) : 0f);
+            if (IsSfxOn())
+            {
+                Debug.Log($"Toggling SFX off");
+                PlayerPrefs.SetFloat(SFX_VOLUME_KEY, 0f);
+                SetSfxVolume(0f);
+            }
+            else
+            {
+                Debug.Log($"Toggling SFX on");
+                SetSfxVolume(_previousSfxVolume > MIN_VOLUME_THRESHOLD ? _previousSfxVolume : 1f);
+            }
         }
 
         public bool IsMusicOn()
         {
-            _audioMixer.GetFloat(MUSIC_VOLUME_KEY, out var volume);
-            return volume > Mathf.Log10(0.1f) * 20;
+            return GetMusicVolume() > MIN_VOLUME_THRESHOLD;
         }
 
         public bool IsSfxOn()
         {
-            _audioMixer.GetFloat(SFX_VOLUME_KEY, out var volume);
-            return volume > Mathf.Log10(0.1f) * 20;
+            return GetSfxVolume() > MIN_VOLUME_THRESHOLD;
         }
 
         public void LoadSettings()
         {
-            var musicVolume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 1f);
-            var sfxVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 1f);
-        
-            SetMusicVolume(musicVolume);
-            SetSfxVolume(sfxVolume);
+            Debug.Log("Loading audio settings");
+
+            float musicVolume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 1f);
+            float sfxVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 1f);
+
+            _previousMusicVolume = (musicVolume > MIN_VOLUME_THRESHOLD ? musicVolume : 1f);
+            _previousSfxVolume = (sfxVolume > MIN_VOLUME_THRESHOLD ? sfxVolume : 1f);
+
+            SetMusicVolume(musicVolume == 0 ? MIN_VOLUME_THRESHOLD : musicVolume);
+            SetSfxVolume(sfxVolume == 0 ? MIN_VOLUME_THRESHOLD : sfxVolume);
         }
 
-        public void PlaySfx(string clipName, Vector3 position = default(Vector3), float volume = 1.0f)
+        public static void SaveSettings()
+        {
+            PlayerPrefs.Save();
+        }
+
+        public void PlaySfx(string clipName, Vector3 position = default, float volume = 1.0f)
         {
             var clip = _audioClipCollection.GetClip(clipName);
-            
+
             if (clip == null)
             {
                 Debug.LogError($"Clip with name {clipName} not found in the collection.");
                 return;
             }
-            
+
             var source = GetAudioSource();
             source.transform.position = position;
             source.clip = clip;
@@ -138,7 +200,7 @@ namespace _Scripts.Audio
             _audioSources.Add(source);
 
             var clipLength = clip.length;
-            _ = UniTask.Delay((int) (clipLength * 1000)).ContinueWith(() => ReleaseAudioSource(source));
+            _ = UniTask.Delay((int)(clipLength * 1000)).ContinueWith(() => ReleaseAudioSource(source));
         }
     }
 }
