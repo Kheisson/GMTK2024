@@ -24,7 +24,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""Gameplay"",
+            ""name"": ""PlayerX"",
             ""id"": ""7da10b74-c4ba-43c1-83fe-10b8d170991c"",
             ""actions"": [
                 {
@@ -145,7 +145,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""740145df-db1f-4968-a51b-481471077f7e"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -168,6 +168,160 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""9e401cd7-1ecb-4de8-97b6-ec7d9e50535a"",
                     ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ScaleDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""PlayerY"",
+            ""id"": ""d412fd33-a872-474c-a605-084fdb9612e7"",
+            ""actions"": [
+                {
+                    ""name"": ""Horizontal Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""ddfa0176-e3a5-46f0-833c-219e977fc020"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""e6956f7d-5c4c-4aac-b594-0ec71ccf40a8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ScaleUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""1255a2db-a677-4574-a9c2-095b21573cc8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ScaleDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""6352da23-e79f-4a05-b5fa-ce0d3aa7eda9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""431adccc-6e80-464c-a8ad-c964912e63a4"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Horizontal Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""b120d558-3931-456f-a2fc-9b4685dc6ad6"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Horizontal Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""9c2224cd-391e-460f-b844-ec5d47067387"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Horizontal Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""44556042-1f0f-40a2-b1fe-2d02901fd3c3"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Horizontal Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""a8f287a3-3940-4515-b2bc-201a272ffec6"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Horizontal Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""b4faa2e4-8977-4e7b-bd13-7db3b71c9384"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Horizontal Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6a518708-5dcd-45e6-b7b8-7811d46de270"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7fa4d17-497f-45ad-ac0f-a7fe0d9d2d83"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02de8a8d-2464-4026-a130-d5ae0c03ad13"",
+                    ""path"": ""<Keyboard>/period"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ScaleUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4888630f-9758-4a17-8742-19350c5ffe6f"",
+                    ""path"": ""<Keyboard>/comma"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -208,12 +362,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // Gameplay
-        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_HorizontalMovement = m_Gameplay.FindAction("Horizontal Movement", throwIfNotFound: true);
-        m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
-        m_Gameplay_ScaleUp = m_Gameplay.FindAction("ScaleUp", throwIfNotFound: true);
-        m_Gameplay_ScaleDown = m_Gameplay.FindAction("ScaleDown", throwIfNotFound: true);
+        // PlayerX
+        m_PlayerX = asset.FindActionMap("PlayerX", throwIfNotFound: true);
+        m_PlayerX_HorizontalMovement = m_PlayerX.FindAction("Horizontal Movement", throwIfNotFound: true);
+        m_PlayerX_Jump = m_PlayerX.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerX_ScaleUp = m_PlayerX.FindAction("ScaleUp", throwIfNotFound: true);
+        m_PlayerX_ScaleDown = m_PlayerX.FindAction("ScaleDown", throwIfNotFound: true);
+        // PlayerY
+        m_PlayerY = asset.FindActionMap("PlayerY", throwIfNotFound: true);
+        m_PlayerY_HorizontalMovement = m_PlayerY.FindAction("Horizontal Movement", throwIfNotFound: true);
+        m_PlayerY_Jump = m_PlayerY.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerY_ScaleUp = m_PlayerY.FindAction("ScaleUp", throwIfNotFound: true);
+        m_PlayerY_ScaleDown = m_PlayerY.FindAction("ScaleDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -272,30 +432,30 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Gameplay
-    private readonly InputActionMap m_Gameplay;
-    private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
-    private readonly InputAction m_Gameplay_HorizontalMovement;
-    private readonly InputAction m_Gameplay_Jump;
-    private readonly InputAction m_Gameplay_ScaleUp;
-    private readonly InputAction m_Gameplay_ScaleDown;
-    public struct GameplayActions
+    // PlayerX
+    private readonly InputActionMap m_PlayerX;
+    private List<IPlayerXActions> m_PlayerXActionsCallbackInterfaces = new List<IPlayerXActions>();
+    private readonly InputAction m_PlayerX_HorizontalMovement;
+    private readonly InputAction m_PlayerX_Jump;
+    private readonly InputAction m_PlayerX_ScaleUp;
+    private readonly InputAction m_PlayerX_ScaleDown;
+    public struct PlayerXActions
     {
         private @PlayerControls m_Wrapper;
-        public GameplayActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @HorizontalMovement => m_Wrapper.m_Gameplay_HorizontalMovement;
-        public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
-        public InputAction @ScaleUp => m_Wrapper.m_Gameplay_ScaleUp;
-        public InputAction @ScaleDown => m_Wrapper.m_Gameplay_ScaleDown;
-        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
+        public PlayerXActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @HorizontalMovement => m_Wrapper.m_PlayerX_HorizontalMovement;
+        public InputAction @Jump => m_Wrapper.m_PlayerX_Jump;
+        public InputAction @ScaleUp => m_Wrapper.m_PlayerX_ScaleUp;
+        public InputAction @ScaleDown => m_Wrapper.m_PlayerX_ScaleDown;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerX; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
-        public void AddCallbacks(IGameplayActions instance)
+        public static implicit operator InputActionMap(PlayerXActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerXActions instance)
         {
-            if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_PlayerXActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerXActionsCallbackInterfaces.Add(instance);
             @HorizontalMovement.started += instance.OnHorizontalMovement;
             @HorizontalMovement.performed += instance.OnHorizontalMovement;
             @HorizontalMovement.canceled += instance.OnHorizontalMovement;
@@ -310,7 +470,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ScaleDown.canceled += instance.OnScaleDown;
         }
 
-        private void UnregisterCallbacks(IGameplayActions instance)
+        private void UnregisterCallbacks(IPlayerXActions instance)
         {
             @HorizontalMovement.started -= instance.OnHorizontalMovement;
             @HorizontalMovement.performed -= instance.OnHorizontalMovement;
@@ -326,21 +486,91 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ScaleDown.canceled -= instance.OnScaleDown;
         }
 
-        public void RemoveCallbacks(IGameplayActions instance)
+        public void RemoveCallbacks(IPlayerXActions instance)
         {
-            if (m_Wrapper.m_GameplayActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_PlayerXActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IGameplayActions instance)
+        public void SetCallbacks(IPlayerXActions instance)
         {
-            foreach (var item in m_Wrapper.m_GameplayActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_PlayerXActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_GameplayActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_PlayerXActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public GameplayActions @Gameplay => new GameplayActions(this);
+    public PlayerXActions @PlayerX => new PlayerXActions(this);
+
+    // PlayerY
+    private readonly InputActionMap m_PlayerY;
+    private List<IPlayerYActions> m_PlayerYActionsCallbackInterfaces = new List<IPlayerYActions>();
+    private readonly InputAction m_PlayerY_HorizontalMovement;
+    private readonly InputAction m_PlayerY_Jump;
+    private readonly InputAction m_PlayerY_ScaleUp;
+    private readonly InputAction m_PlayerY_ScaleDown;
+    public struct PlayerYActions
+    {
+        private @PlayerControls m_Wrapper;
+        public PlayerYActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @HorizontalMovement => m_Wrapper.m_PlayerY_HorizontalMovement;
+        public InputAction @Jump => m_Wrapper.m_PlayerY_Jump;
+        public InputAction @ScaleUp => m_Wrapper.m_PlayerY_ScaleUp;
+        public InputAction @ScaleDown => m_Wrapper.m_PlayerY_ScaleDown;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerY; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerYActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerYActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PlayerYActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerYActionsCallbackInterfaces.Add(instance);
+            @HorizontalMovement.started += instance.OnHorizontalMovement;
+            @HorizontalMovement.performed += instance.OnHorizontalMovement;
+            @HorizontalMovement.canceled += instance.OnHorizontalMovement;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
+            @ScaleUp.started += instance.OnScaleUp;
+            @ScaleUp.performed += instance.OnScaleUp;
+            @ScaleUp.canceled += instance.OnScaleUp;
+            @ScaleDown.started += instance.OnScaleDown;
+            @ScaleDown.performed += instance.OnScaleDown;
+            @ScaleDown.canceled += instance.OnScaleDown;
+        }
+
+        private void UnregisterCallbacks(IPlayerYActions instance)
+        {
+            @HorizontalMovement.started -= instance.OnHorizontalMovement;
+            @HorizontalMovement.performed -= instance.OnHorizontalMovement;
+            @HorizontalMovement.canceled -= instance.OnHorizontalMovement;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
+            @ScaleUp.started -= instance.OnScaleUp;
+            @ScaleUp.performed -= instance.OnScaleUp;
+            @ScaleUp.canceled -= instance.OnScaleUp;
+            @ScaleDown.started -= instance.OnScaleDown;
+            @ScaleDown.performed -= instance.OnScaleDown;
+            @ScaleDown.canceled -= instance.OnScaleDown;
+        }
+
+        public void RemoveCallbacks(IPlayerYActions instance)
+        {
+            if (m_Wrapper.m_PlayerYActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPlayerYActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PlayerYActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PlayerYActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PlayerYActions @PlayerY => new PlayerYActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -359,7 +589,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_GamepadSchemeIndex];
         }
     }
-    public interface IGameplayActions
+    public interface IPlayerXActions
+    {
+        void OnHorizontalMovement(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnScaleUp(InputAction.CallbackContext context);
+        void OnScaleDown(InputAction.CallbackContext context);
+    }
+    public interface IPlayerYActions
     {
         void OnHorizontalMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
