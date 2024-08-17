@@ -20,7 +20,7 @@ namespace Controls.StateMachine
             base.OnUpdate();
             _isJumpInputStop = _playerResources.PlayerInputHandler.JumpInputStop;
 
-            //CheckJumpMultiplier();
+            CheckJumpMultiplier();
         }
 
         public override void OnFixedUpdate()
@@ -37,6 +37,24 @@ namespace Controls.StateMachine
             
             _playerMover.AddClampedXVelocity(_playerResources.PlayerData.InAirAcceleration,
                 _playerResources.PlayerData.MaxHorizontalMovementSpeed, _xInput);
+        }
+        
+        private void CheckJumpMultiplier()
+        {
+            if (!_isJumping)
+            {
+                return;
+            }
+            
+             if(_playerMover.Velocity.y <= 0f)
+            {
+                _isJumping = false;
+            }
+            else if (_isJumpInputStop)
+            {
+                _playerMover.SetVelocityY(_playerMover.Velocity.y * _playerResources.PlayerData.VariableHeightMultiplier);
+                _isJumping = false;
+            }
         }
     }
 }

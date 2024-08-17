@@ -14,6 +14,8 @@ namespace Movement
             _rigidbody2D = rigidbody2D;
         }
 
+        public Vector2 Velocity => _velocity;
+
 
         public void SetVelocityX(float velocityX)
         {
