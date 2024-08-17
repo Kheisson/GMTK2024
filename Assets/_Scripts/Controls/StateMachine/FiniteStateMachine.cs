@@ -1,6 +1,8 @@
+using Utils;
+
 namespace Controls.StateMachine
 {
-    public class FiniteStateMachine
+    public class FiniteStateMachine : IUpdatable, IFixedUpdatable
     {
         public State CurrentState { get; private set; }
         
@@ -15,6 +17,16 @@ namespace Controls.StateMachine
             CurrentState?.Exit();
             CurrentState = newState;
             CurrentState.Enter();
+        }
+
+        public void OnUpdate()
+        {
+            CurrentState.OnUpdate();
+        }
+
+        public void OnFixedUpdate()
+        {
+            CurrentState.OnFixedUpdate();
         }
     }
 }
