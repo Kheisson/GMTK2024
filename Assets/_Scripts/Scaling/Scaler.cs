@@ -7,14 +7,16 @@ namespace Scaling
     {
         [SerializeField] private EScaleAbility scaleAbility;
         [SerializeField] private float scaleStep = 1.0f;
+
+        private IScalable _scalableObject;
         
-        public void PerformScale(EScaleCommand scaleCommand, IScalable scalableObject)
+        public void PerformScale(EScaleCommand scaleCommand)
         {
-            if (scalableObject == null)
+            if (_scalableObject == null)
             {
                 return;
             }
-
+            
             var direction = scaleAbility switch
             {
                 EScaleAbility.ScaleX => Vector3.right,
@@ -23,7 +25,7 @@ namespace Scaling
             };
 
             var scaleAmount = scaleCommand == EScaleCommand.ScaleUp ? scaleStep : -scaleStep;
-            scalableObject.ScaleObject(direction, scaleAmount);
+            _scalableObject.ScaleObject(direction, scaleAmount);
         }
         
         private void SwitchScaleAbility()
@@ -32,6 +34,18 @@ namespace Scaling
             {
                 scaleAbility = scaleAbility == EScaleAbility.ScaleX ? EScaleAbility.ScaleY : EScaleAbility.ScaleX;
             }
+        }
+
+        public void SetSelectedScalableObject(IScalable newScalableObject)
+        {
+            if (_scalableObject != null)
+            {
+                _scalableObject.Deselect();
+            }
+            
+            _scalableObject = newScalableObject;
+
+            newScalableObject?.Select();
         }
     }
 }

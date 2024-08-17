@@ -9,5 +9,7 @@ namespace Scaling.Scalable
         void ScaleObject(Vector3 direction, float scaleAmount);
         event Action OnScaleSuccess;
         event Action OnScaleFailure;
+        void Deselect();
+        void Select();
     }
 }

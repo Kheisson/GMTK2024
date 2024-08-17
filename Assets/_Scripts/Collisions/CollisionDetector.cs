@@ -18,7 +18,6 @@ namespace Collisions
                 Vector2 pointA = (Vector2)groundChecker.position - Vector2.right * groundCheckArea.x;
                 Vector2 pointB = (Vector2)groundChecker.position + Vector2.right * groundCheckArea.x +
                                  (Vector2.down) * groundCheckArea.y;
-                
 
                 var hits = Physics2D.OverlapAreaAll(pointA, pointB);
                 foreach (Collider2D hit in hits)

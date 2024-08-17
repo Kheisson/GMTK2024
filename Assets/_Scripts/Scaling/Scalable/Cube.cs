@@ -73,6 +73,16 @@ namespace Scaling.Scalable
             });
         }
         
+        public void Deselect()
+        {
+            ActivateOutline(false);
+        }
+
+        public void Select()
+        {
+            ActivateOutline(true);
+        }
+        
         private bool ShouldScaleFail(Vector3 direction, float scaleAmount)
         {
             switch (scaleAmount)

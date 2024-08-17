@@ -48,16 +48,17 @@ namespace Controls.StateMachine
                 _stateMachine.ChangeState(new InAirState(_playerResources, _stateMachine, true));
                 return;
             }
+            
+            _playerResources.Scaler
+                .SetSelectedScalableObject(_playerResources.CollisionDetector.GetScalableObject(_playerMover.FacingDirection));
 
             if (_isScaleUpInput)
             {
-                _playerResources.Scaler.PerformScale(EScaleCommand.ScaleUp, 
-                    _playerResources.CollisionDetector.GetScalableObject(_playerMover.FacingDirection));
+                _playerResources.Scaler.PerformScale(EScaleCommand.ScaleUp);
             }
             else if (_isScaleDownInput)
             {
-                _playerResources.Scaler.PerformScale(EScaleCommand.ScaleDown, 
-                    _playerResources.CollisionDetector.GetScalableObject(_playerMover.FacingDirection));
+                _playerResources.Scaler.PerformScale(EScaleCommand.ScaleDown);
             }
         }
     }
