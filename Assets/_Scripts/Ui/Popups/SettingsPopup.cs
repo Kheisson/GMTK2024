@@ -37,11 +37,6 @@ namespace _Scripts.Ui.Popups
             LoadSettings();
         }
 
-        private void OnEnable()
-        {
-            Time.timeScale = 0;
-        }
-
         private void LoadSettings()
         {
             if (_audioManager == null) return;

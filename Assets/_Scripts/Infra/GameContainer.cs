@@ -44,7 +44,7 @@ namespace _Scripts.Infra
 
         private async UniTask InitializeUiManagerAsync()
         {
-            var uiManagerInstance = Instantiate(uiManagerPrefab, transform).GetComponent<UiManager>();
+            var uiManagerInstance = Instantiate(uiManagerPrefab).GetComponent<UiManager>();
             await uiManagerInstance.Initialize();
             ServiceLocator.RegisterService(uiManagerInstance);
         }

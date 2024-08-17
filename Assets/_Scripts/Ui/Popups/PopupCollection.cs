@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Scripts.Ui.Popups
 {
-    [CreateAssetMenu(fileName = "PopupCollection", menuName = "ScriptableObjects/PopupCollection", order = 1)]
+    [CreateAssetMenu(fileName = "PopupCollection", menuName = "Ui/PopupCollection", order = 1)]
     public class PopupCollection : ScriptableObject
     {
         [Serializable]
