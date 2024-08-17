@@ -1,3 +1,4 @@
+using Animations;
 using Movement;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace Controls.StateMachine
         {
             base.OnUpdate();
             _isJumpInputStop = _playerResources.PlayerInputHandler.JumpInputStop;
+            _playerResources.Animator.SetBool(AnimationConstants.GROUNDED_KEY, _isGrounded);
 
             CheckCoyoteTime();
             CheckJumpMultiplier();
@@ -53,6 +55,7 @@ namespace Controls.StateMachine
 
         private void Jump()
         {
+            _playerResources.Animator.SetTrigger(AnimationConstants.JUMP_TRIGGER);
             _playerMover.SetVelocityY(_playerResources.PlayerData.JumpForce);
             _isJumping = true;
             _isCoyoteTimeActive = false;

@@ -1,5 +1,7 @@
+using Animations;
 using Movement;
 using Scaling;
+using UnityEngine;
 
 namespace Controls.StateMachine
 {
@@ -33,11 +35,15 @@ namespace Controls.StateMachine
         {
             base.OnFixedUpdate();
 
+            _playerResources.Animator.SetFloat(AnimationConstants.X_VELOCITY_KEY, Mathf.Abs(_xInput));
+            _playerResources.Animator.SetBool(AnimationConstants.GROUNDED_KEY, _isGrounded);
+
             if (_xInput != 0)
             {
                 _playerMover.AddClampedXVelocity(_playerResources.PlayerData.GroundedAcceleration,  
                     _playerResources.PlayerData.MaxHorizontalMovementSpeed, _xInput);
                 _playerMover.HandleFlipping(_xInput);
+                
             }
             else
             {
@@ -53,6 +59,7 @@ namespace Controls.StateMachine
             if (_isJumpInput)
             {
                 _playerMover.SetVelocityY(_playerResources.PlayerData.JumpForce);
+                _playerResources.Animator.SetTrigger(AnimationConstants.JUMP_TRIGGER);
                 _stateMachine.ChangeState(new InAirState(_playerResources, _stateMachine, true));
                 return;
             }
