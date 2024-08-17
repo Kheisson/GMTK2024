@@ -3,45 +3,50 @@ using UnityEngine.InputSystem;
 
 namespace Controls
 {
-    public class PlayerInputHandler 
+    public class PlayerInputHandler : MonoBehaviour
     {
-        private readonly PlayerControls _playerControls;
+        [SerializeField] private float inputStayTime;
         
-        public PlayerInputHandler()
-        { 
-            _playerControls = new PlayerControls();
-
-            _playerControls.Gameplay.HorizontalMovement.performed += OnMovePerformed;
-            _playerControls.Gameplay.Jump.performed += OnJumpPerformed;
-        }
+        public int NormInputX { get; private set; }
+        public bool JumpInput { get; private set; }
+        public bool JumpInputStop { get; private set; }
         
-        public void Enable()
-        {
-            _playerControls.Enable();
-        }
+        private float _jumpInputStartTime;
 
-        public void Disable()
-        {
-            _playerControls.Disable();
-        }
-
-        private void OnMovePerformed(InputAction.CallbackContext context)
+        // invoked via unity event
+        public void OnMovePerformed(InputAction.CallbackContext context)
         {
             var rawInput = context.ReadValue<Vector2>();
             NormInputX = Mathf.RoundToInt(rawInput.x);
         }
         
-        private void OnJumpPerformed(InputAction.CallbackContext context)
+        // invoked via unity event
+        public void OnJumpPerformed(InputAction.CallbackContext context)
         {
+            if (context.started)
+            {
+                JumpInput = true;
+                JumpInputStop = false;
+                _jumpInputStartTime = Time.time;
+            }
             
+            if (context.canceled)
+            {
+                JumpInputStop = true;
+            }
         }
 
-        public int NormInputX { get; private set; }
-
-        ~PlayerInputHandler()
+        private void Update()
         {
-            _playerControls.Gameplay.HorizontalMovement.performed -= OnMovePerformed;
-            _playerControls.Gameplay.HorizontalMovement.performed -= OnJumpPerformed;
+            CheckJumpInputStayTime();
+        }
+
+        private void CheckJumpInputStayTime()
+        {
+            if (Time.time >= _jumpInputStartTime + inputStayTime)
+            {
+                JumpInput = false;
+            }
         }
     }
 }

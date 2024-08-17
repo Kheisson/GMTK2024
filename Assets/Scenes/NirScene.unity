@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 273906940}
   - component: {fileID: 273906943}
   - component: {fileID: 273906944}
+  - component: {fileID: 273906945}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -170,11 +171,35 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 273906945}
+        m_TargetAssemblyTypeName: Controls.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: OnMovePerformed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e0bb4807-309d-4c96-a3c9-aaeac9a4437e
     m_ActionName: Gameplay/Horizontal Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 273906945}
+        m_TargetAssemblyTypeName: Controls.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: OnJumpPerformed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 65e3e84a-625b-47da-b76a-7eafb2e03bf9
     m_ActionName: Gameplay/Jump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
@@ -237,7 +262,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 008ad209d9012449b87c188c8752d256, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -247,7 +272,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &273906942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +345,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundCheck: {fileID: 1495491808}
   groundCheckArea: {x: 0.3, y: 0.12}
+--- !u!114 &273906945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273906937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695e39bd7a4f4cb1be8632efa44167fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputStayTime: 0.1
 --- !u!1 &319984739
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,7 +491,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

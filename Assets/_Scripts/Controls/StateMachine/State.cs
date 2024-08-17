@@ -7,6 +7,7 @@ namespace Controls.StateMachine
         protected PlayerResources _playerResources;
         protected int _xInput;
         protected bool _isGrounded;
+        protected bool _isJumpInput;
         protected FiniteStateMachine _stateMachine;
             
         public State(PlayerResources playerResources, FiniteStateMachine stateMachine)
@@ -23,6 +24,7 @@ namespace Controls.StateMachine
         public virtual void OnUpdate()
         {
             _xInput = _playerResources.PlayerInputHandler.NormInputX;
+            _isJumpInput = _playerResources.PlayerInputHandler.JumpInput;
         }
 
         public virtual void OnFixedUpdate()

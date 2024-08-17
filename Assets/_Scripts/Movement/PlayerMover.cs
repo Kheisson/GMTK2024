@@ -4,19 +4,34 @@ namespace Movement
 {
     public class PlayerMover
     {
+        private Vector2 _velocity;
+        
         private readonly Rigidbody2D _rigidbody2D;
-        private readonly float _moveSpeed;
-        public int _facingDirection = 1;
+        private int _facingDirection = 1;
 
-        public PlayerMover(Rigidbody2D rigidbody2D, float moveSpeed)
+        public PlayerMover(Rigidbody2D rigidbody2D)
         {
             _rigidbody2D = rigidbody2D;
-            _moveSpeed = moveSpeed;
         }
 
-        public void Move(int xInput)
+
+        public void SetVelocityX(float velocityX)
         {
-           _rigidbody2D.MovePosition(_rigidbody2D.position + Vector2.right * (xInput * _moveSpeed * Time.fixedDeltaTime));
+            _velocity.Set(velocityX, _rigidbody2D.velocity.y);
+            _rigidbody2D.velocity = _velocity;
+        }
+
+        public void SetVelocityY(float velocityY)
+        {
+            _velocity.Set(_rigidbody2D.velocity.x, velocityY);
+            _rigidbody2D.velocity = _velocity;
+        }
+        
+        public void AddClampedXVelocity(float amount, float limit, float xInput)
+        {
+            float addedXVelocity = _rigidbody2D.velocity.x + amount * xInput * Time.fixedDeltaTime;
+            float clampedXVelocity = Mathf.Clamp(addedXVelocity, -limit, limit);
+            SetVelocityX(clampedXVelocity); 
         }
 
         public void HandleFlipping(int xInput)

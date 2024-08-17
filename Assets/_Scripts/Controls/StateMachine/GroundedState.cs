@@ -4,7 +4,6 @@ namespace Controls.StateMachine
 {
     public class GroundedState : State
     {
-        private readonly PlayerInputHandler _playerInputHandler;
         private readonly PlayerMover _playerMover;
 
         public GroundedState(PlayerResources playerResources, FiniteStateMachine stateMachine) : base(playerResources, stateMachine)
@@ -25,12 +24,28 @@ namespace Controls.StateMachine
         public override void OnFixedUpdate()
         {
             base.OnFixedUpdate();
-            _playerMover.Move(_xInput);
-            _playerMover.HandleFlipping(_xInput);
 
+            if (_xInput != 0)
+            {
+                _playerMover.AddClampedXVelocity(_playerResources.PlayerData.GroundedAcceleration,  
+                    _playerResources.PlayerData.MaxHorizontalMovementSpeed, _xInput);
+                _playerMover.HandleFlipping(_xInput);
+            }
+            else
+            {
+                _playerMover.SetVelocityX(0);
+            }
+            
             if (!_isGrounded)
             {
-                _stateMachine.ChangeState(new InAirState(_playerResources, _stateMachine));
+                _stateMachine.ChangeState(new InAirState(_playerResources, _stateMachine, false));
+                return;
+            }
+
+            if (_isJumpInput)
+            {
+                _playerMover.SetVelocityY(_playerResources.PlayerData.JumpForce);
+                _stateMachine.ChangeState(new InAirState(_playerResources, _stateMachine, true));
             }
         }
 

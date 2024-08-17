@@ -16,27 +16,18 @@ namespace Controls
         private void Awake()
         {
             var rigidbody = GetComponent<Rigidbody2D>();
-            _inputHandler = new PlayerInputHandler();
+            _inputHandler = GetComponent<PlayerInputHandler>();
             
             _playerResources = new PlayerResources(
                 rigidbody2D: rigidbody,
                 animator: GetComponent<Animator>(), 
                 playerInputHandler: _inputHandler,
-                playerMover: new PlayerMover(rigidbody, playerData.MovementSpeed),
-                collisionDetector: GetComponent<CollisionDetector>());
+                playerMover: new PlayerMover(GetComponent<Rigidbody2D>()),
+                collisionDetector: GetComponent<CollisionDetector>(),
+                playerData: playerData);
 
             _stateMachine = new FiniteStateMachine();
             _stateMachine.Initialize(new GroundedState(_playerResources, _stateMachine));
-        }
-
-        private void OnEnable()
-        {
-            _inputHandler.Enable();
-        }
-
-        private void OnDisable()
-        {
-            _inputHandler.Disable();
         }
 
         private void Update()
