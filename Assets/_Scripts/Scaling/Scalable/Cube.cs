@@ -1,7 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Player;
 using UnityEngine;
 
 namespace Scaling.Scalable
