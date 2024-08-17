@@ -160,7 +160,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d851d41839ce52f4e8e9863f65bcce0f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4940f91c0689e044ea7876f0c9cc8a41, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -244,7 +244,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ac23cc50657866840bbd1b5e09e01ccc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 719421c1ddf49af4a97e0d0405df1da4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -265,7 +265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3926799053124303060}
   m_Layer: 0
-  m_Name: PlayerX
+  m_Name: PlayerY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -360,7 +360,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f94825522555e0e4d900dfffcac21897, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b32a0e39a06cf59408ea313693f037d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -478,7 +478,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6ca9915eeaecd6d4387a3f583f03e6d9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1d9d809a1aa70ae40b8740a2bcf2eb1f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -762,7 +762,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6e95001cf114c384f926e7071d5c8035, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 065e85c938dd1874fbbda7cd824b1b81, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1182,7 +1182,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1f30dccba20f47c4997ea14daea12a62, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 78c9a3f0e3719dc42a5dbb8c6447128c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
