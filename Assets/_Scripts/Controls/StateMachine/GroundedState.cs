@@ -8,6 +8,7 @@ namespace Controls.StateMachine
         private readonly PlayerMover _playerMover;
         private bool _isScaleUpInput;
         private bool _isScaleDownInput;
+        private bool _isPickupInput;
 
         public GroundedState(PlayerResources playerResources, FiniteStateMachine stateMachine) : base(playerResources, stateMachine)
         {
@@ -17,8 +18,15 @@ namespace Controls.StateMachine
         public override void OnUpdate()
         {
             base.OnUpdate();
+            _isPickupInput = _playerResources.PlayerInputHandler.IsPickUpInput;
             _isScaleUpInput = _playerResources.PlayerInputHandler.IsScaleUpInput;
             _isScaleDownInput = _playerResources.PlayerInputHandler.IsScaleDownInput;
+            
+            if (_isPickupInput)
+            {
+                _playerResources.Carrier.ToggleCarry(_playerResources.CollisionDetector.GetScalableGameObject(_playerMover.FacingDirection));
+                _playerResources.PlayerInputHandler.IsPickUpInput = false;
+            }
         }
 
         public override void OnFixedUpdate()
@@ -59,7 +67,7 @@ namespace Controls.StateMachine
             else if (_isScaleDownInput)
             {
                 _playerResources.Scaler.PerformScale(EScaleCommand.ScaleDown);
-            }
+            } 
         }
     }
 }

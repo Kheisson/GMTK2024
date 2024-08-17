@@ -62,6 +62,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PickUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff31893a-433c-410d-882c-2015e6390462"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -174,6 +183,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ScaleDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""83409e33-c10c-40a7-9b1f-0bf26b2abde6"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""PickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -212,6 +232,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""ScaleDown"",
                     ""type"": ""Button"",
                     ""id"": ""6352da23-e79f-4a05-b5fa-ce0d3aa7eda9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PickUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""411e0f9b-b82f-4d65-8651-4dc148a42238"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -328,6 +357,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ScaleDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f6a4cd3-ecd0-4a9b-b6f8-fbf3672ae6ea"",
+                    ""path"": ""<Keyboard>/rightShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""PickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -368,12 +408,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerX_Jump = m_PlayerX.FindAction("Jump", throwIfNotFound: true);
         m_PlayerX_ScaleUp = m_PlayerX.FindAction("ScaleUp", throwIfNotFound: true);
         m_PlayerX_ScaleDown = m_PlayerX.FindAction("ScaleDown", throwIfNotFound: true);
+        m_PlayerX_PickUp = m_PlayerX.FindAction("PickUp", throwIfNotFound: true);
         // PlayerY
         m_PlayerY = asset.FindActionMap("PlayerY", throwIfNotFound: true);
         m_PlayerY_HorizontalMovement = m_PlayerY.FindAction("Horizontal Movement", throwIfNotFound: true);
         m_PlayerY_Jump = m_PlayerY.FindAction("Jump", throwIfNotFound: true);
         m_PlayerY_ScaleUp = m_PlayerY.FindAction("ScaleUp", throwIfNotFound: true);
         m_PlayerY_ScaleDown = m_PlayerY.FindAction("ScaleDown", throwIfNotFound: true);
+        m_PlayerY_PickUp = m_PlayerY.FindAction("PickUp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -439,6 +481,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerX_Jump;
     private readonly InputAction m_PlayerX_ScaleUp;
     private readonly InputAction m_PlayerX_ScaleDown;
+    private readonly InputAction m_PlayerX_PickUp;
     public struct PlayerXActions
     {
         private @PlayerControls m_Wrapper;
@@ -447,6 +490,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerX_Jump;
         public InputAction @ScaleUp => m_Wrapper.m_PlayerX_ScaleUp;
         public InputAction @ScaleDown => m_Wrapper.m_PlayerX_ScaleDown;
+        public InputAction @PickUp => m_Wrapper.m_PlayerX_PickUp;
         public InputActionMap Get() { return m_Wrapper.m_PlayerX; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -468,6 +512,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ScaleDown.started += instance.OnScaleDown;
             @ScaleDown.performed += instance.OnScaleDown;
             @ScaleDown.canceled += instance.OnScaleDown;
+            @PickUp.started += instance.OnPickUp;
+            @PickUp.performed += instance.OnPickUp;
+            @PickUp.canceled += instance.OnPickUp;
         }
 
         private void UnregisterCallbacks(IPlayerXActions instance)
@@ -484,6 +531,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ScaleDown.started -= instance.OnScaleDown;
             @ScaleDown.performed -= instance.OnScaleDown;
             @ScaleDown.canceled -= instance.OnScaleDown;
+            @PickUp.started -= instance.OnPickUp;
+            @PickUp.performed -= instance.OnPickUp;
+            @PickUp.canceled -= instance.OnPickUp;
         }
 
         public void RemoveCallbacks(IPlayerXActions instance)
@@ -509,6 +559,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerY_Jump;
     private readonly InputAction m_PlayerY_ScaleUp;
     private readonly InputAction m_PlayerY_ScaleDown;
+    private readonly InputAction m_PlayerY_PickUp;
     public struct PlayerYActions
     {
         private @PlayerControls m_Wrapper;
@@ -517,6 +568,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerY_Jump;
         public InputAction @ScaleUp => m_Wrapper.m_PlayerY_ScaleUp;
         public InputAction @ScaleDown => m_Wrapper.m_PlayerY_ScaleDown;
+        public InputAction @PickUp => m_Wrapper.m_PlayerY_PickUp;
         public InputActionMap Get() { return m_Wrapper.m_PlayerY; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -538,6 +590,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ScaleDown.started += instance.OnScaleDown;
             @ScaleDown.performed += instance.OnScaleDown;
             @ScaleDown.canceled += instance.OnScaleDown;
+            @PickUp.started += instance.OnPickUp;
+            @PickUp.performed += instance.OnPickUp;
+            @PickUp.canceled += instance.OnPickUp;
         }
 
         private void UnregisterCallbacks(IPlayerYActions instance)
@@ -554,6 +609,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ScaleDown.started -= instance.OnScaleDown;
             @ScaleDown.performed -= instance.OnScaleDown;
             @ScaleDown.canceled -= instance.OnScaleDown;
+            @PickUp.started -= instance.OnPickUp;
+            @PickUp.performed -= instance.OnPickUp;
+            @PickUp.canceled -= instance.OnPickUp;
         }
 
         public void RemoveCallbacks(IPlayerYActions instance)
@@ -595,6 +653,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnScaleUp(InputAction.CallbackContext context);
         void OnScaleDown(InputAction.CallbackContext context);
+        void OnPickUp(InputAction.CallbackContext context);
     }
     public interface IPlayerYActions
     {
@@ -602,5 +661,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnScaleUp(InputAction.CallbackContext context);
         void OnScaleDown(InputAction.CallbackContext context);
+        void OnPickUp(InputAction.CallbackContext context);
     }
 }

@@ -41,5 +41,13 @@ namespace Collisions
 
             return scalable? scalable.collider.GetComponent<IScalable>() : null;
         }
+        
+        public GameObject GetScalableGameObject(int direction)
+        {
+            var hits = Physics2D.RaycastAll(scalableChecker.position, Vector2.right * direction, cubeCheckDistance);
+            var scalable = hits.FirstOrDefault(hit => hit.collider.gameObject.name.Contains(nameof(Cube)));
+
+            return scalable.collider?.gameObject;
+        }
     }
 }

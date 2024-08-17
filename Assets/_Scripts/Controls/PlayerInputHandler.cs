@@ -6,12 +6,14 @@ namespace Controls
     public class PlayerInputHandler : MonoBehaviour
     {
         [SerializeField] private float inputStayTime;
+        private bool _pickUpInputProcessed;
         
         public int NormInputX { get; private set; }
         public bool JumpInput { get; private set; }
         public bool JumpInputStop { get; private set; }
         public bool IsScaleUpInput { get; private set; }
         public bool IsScaleDownInput { get; private set; }
+        public bool IsPickUpInput { get; set; }
 
         
         private float _jumpInputStartTime;
@@ -67,7 +69,20 @@ namespace Controls
                 IsScaleDownInput = false;
             }
         }
-
+        
+        public void OnPickUpPerformed(InputAction.CallbackContext context)
+        {
+            if (context.performed && !_pickUpInputProcessed)
+            {
+                IsPickUpInput = true;
+                _pickUpInputProcessed = true;
+            }
+            else if (context.canceled)
+            {
+                IsPickUpInput = false;
+                _pickUpInputProcessed = false;
+            }
+        }
 
         private void Update()
         {

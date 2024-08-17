@@ -1,3 +1,4 @@
+using _Scripts.Carrier;
 using Collisions;
 using Controls.StateMachine;
 using Movement;
@@ -20,7 +21,8 @@ namespace Controls
                 playerMover: new PlayerMover(GetComponent<Rigidbody2D>()),
                 collisionDetector: GetComponent<CollisionDetector>(),
                 playerData: playerData,
-                scaler: GetComponent<Scaler>());
+                scaler: GetComponent<Scaler>(),
+                carrier: GetComponent<Carrier>());
 
             _stateMachine = new FiniteStateMachine();
             _stateMachine.Initialize(new GroundedState(playerResources, _stateMachine));

@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PickUp",
+                    "type": "Button",
+                    "id": "ff31893a-433c-410d-882c-2015e6390462",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -152,6 +161,17 @@
                     "action": "ScaleDown",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "83409e33-c10c-40a7-9b1f-0bf26b2abde6",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "PickUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -190,6 +210,15 @@
                     "name": "ScaleDown",
                     "type": "Button",
                     "id": "6352da23-e79f-4a05-b5fa-ce0d3aa7eda9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PickUp",
+                    "type": "Button",
+                    "id": "411e0f9b-b82f-4d65-8651-4dc148a42238",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -304,6 +333,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "ScaleDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f6a4cd3-ecd0-4a9b-b6f8-fbf3672ae6ea",
+                    "path": "<Keyboard>/rightShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "PickUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
