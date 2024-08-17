@@ -10,8 +10,16 @@ namespace Controls
         public int NormInputX { get; private set; }
         public bool JumpInput { get; private set; }
         public bool JumpInputStop { get; private set; }
+        public bool IsScaleUpInput { get; private set; }
+        public bool IsScaleDownInput { get; private set; }
+
         
         private float _jumpInputStartTime;
+
+        public PlayerInputHandler(bool isScaleUpInput)
+        {
+            IsScaleUpInput = isScaleUpInput;
+        }
 
         // invoked via unity event
         public void OnMovePerformed(InputAction.CallbackContext context)
@@ -35,6 +43,31 @@ namespace Controls
                 JumpInputStop = true;
             }
         }
+        
+        public void OnScaleUpPerformed(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                IsScaleUpInput = true;
+            }
+            else if (context.canceled)
+            {
+                IsScaleUpInput = false;
+            }
+        }
+        
+        public void OnScaleDownPerformed(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                IsScaleDownInput = true;
+            }
+            else if (context.canceled)
+            {
+                IsScaleDownInput = false;
+            }
+        }
+
 
         private void Update()
         {

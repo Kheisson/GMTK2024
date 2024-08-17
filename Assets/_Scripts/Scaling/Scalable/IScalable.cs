@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Scalable
+namespace Scaling.Scalable
 {
     public interface IScalable
     {

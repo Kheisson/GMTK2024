@@ -7,7 +7,7 @@ namespace Movement
         private Vector2 _velocity;
         
         private readonly Rigidbody2D _rigidbody2D;
-        private int _facingDirection = 1;
+        public int FacingDirection { get; private set; }= 1;
 
         public PlayerMover(Rigidbody2D rigidbody2D)
         {
@@ -38,12 +38,12 @@ namespace Movement
 
         public void HandleFlipping(int xInput)
         {
-            if (xInput != 0 && xInput != _facingDirection)
+            if (xInput != 0 && xInput != FacingDirection)
             {
-                _facingDirection *= -1;
+                FacingDirection *= -1;
                 
                 var currentScale = _rigidbody2D.transform.localScale;
-                _rigidbody2D.transform.localScale = new Vector3(Mathf.Abs(currentScale.x) * _facingDirection, currentScale.y, currentScale.z);
+                _rigidbody2D.transform.localScale = new Vector3(Mathf.Abs(currentScale.x) * FacingDirection, currentScale.y, currentScale.z);
             }
         }
     }

@@ -1,6 +1,7 @@
 using Collisions;
 using Controls.StateMachine;
 using Movement;
+using Scaling;
 using UnityEngine;
 
 namespace Controls
@@ -9,25 +10,20 @@ namespace Controls
     {
         [SerializeField] private PlayerData playerData;
 
-        private PlayerResources _playerResources;
         private FiniteStateMachine _stateMachine;
-        private PlayerInputHandler _inputHandler;
         
         private void Awake()
         {
-            var rigidbody = GetComponent<Rigidbody2D>();
-            _inputHandler = GetComponent<PlayerInputHandler>();
-            
-            _playerResources = new PlayerResources(
-                rigidbody2D: rigidbody,
+            PlayerResources playerResources = new PlayerResources(
                 animator: GetComponent<Animator>(), 
-                playerInputHandler: _inputHandler,
+                playerInputHandler: GetComponent<PlayerInputHandler>(),
                 playerMover: new PlayerMover(GetComponent<Rigidbody2D>()),
                 collisionDetector: GetComponent<CollisionDetector>(),
-                playerData: playerData);
+                playerData: playerData,
+                scaler: GetComponent<Scaler>());
 
             _stateMachine = new FiniteStateMachine();
-            _stateMachine.Initialize(new GroundedState(_playerResources, _stateMachine));
+            _stateMachine.Initialize(new GroundedState(playerResources, _stateMachine));
         }
 
         private void Update()

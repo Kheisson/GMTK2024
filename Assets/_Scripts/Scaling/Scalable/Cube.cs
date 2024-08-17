@@ -4,7 +4,7 @@ using DG.Tweening;
 using Player;
 using UnityEngine;
 
-namespace Scalable
+namespace Scaling.Scalable
 {
     [RequireComponent(typeof(Collider2D), typeof(Renderer))]
     public class Cube : MonoBehaviour, IScalable

@@ -1,4 +1,4 @@
-namespace Player
+namespace Scaling
 {
     public enum EScaleAbility
     {

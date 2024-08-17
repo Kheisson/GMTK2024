@@ -1,24 +1,24 @@
 using Movement;
+using Scaling;
 
 namespace Controls.StateMachine
 {
     public class GroundedState : State
     {
         private readonly PlayerMover _playerMover;
+        private bool _isScaleUpInput;
+        private bool _isScaleDownInput;
 
         public GroundedState(PlayerResources playerResources, FiniteStateMachine stateMachine) : base(playerResources, stateMachine)
         {
             _playerMover = playerResources.PlayerMover;
         }
 
-        public override void Enter()
-        {
-            base.Enter();
-        }
-
         public override void OnUpdate()
         {
             base.OnUpdate();
+            _isScaleUpInput = _playerResources.PlayerInputHandler.IsScaleUpInput;
+            _isScaleDownInput = _playerResources.PlayerInputHandler.IsScaleDownInput;
         }
 
         public override void OnFixedUpdate()
@@ -46,12 +46,19 @@ namespace Controls.StateMachine
             {
                 _playerMover.SetVelocityY(_playerResources.PlayerData.JumpForce);
                 _stateMachine.ChangeState(new InAirState(_playerResources, _stateMachine, true));
+                return;
             }
-        }
 
-        public override void Exit()
-        {
-            base.Exit();
+            if (_isScaleUpInput)
+            {
+                _playerResources.Scaler.PerformScale(EScaleCommand.ScaleUp, 
+                    _playerResources.CollisionDetector.GetScalableObject(_playerMover.FacingDirection));
+            }
+            else if (_isScaleDownInput)
+            {
+                _playerResources.Scaler.PerformScale(EScaleCommand.ScaleDown, 
+                    _playerResources.CollisionDetector.GetScalableObject(_playerMover.FacingDirection));
+            }
         }
     }
 }

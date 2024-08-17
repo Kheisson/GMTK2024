@@ -1,4 +1,5 @@
-using Scalable;
+using Scaling;
+using Scaling.Scalable;
 using UnityEngine;
 
 namespace Player
@@ -67,8 +68,6 @@ namespace Player
                 if (_scalableObject != null)
                 {
                     Debug.Log("Cube is scalable");
-                    _scalableObject.OnScaleSuccess += HandleScaleSuccess;
-                    _scalableObject.OnScaleFailure += HandleScaleFailure;
                 }
             }
         }
@@ -81,21 +80,9 @@ namespace Player
                 if (_scalableObject != null)
                 {
                     Debug.Log("Cube is no longer scalable");
-                    _scalableObject.OnScaleSuccess -= HandleScaleSuccess;
-                    _scalableObject.OnScaleFailure -= HandleScaleFailure;
                 }
                 _scalableObject = null;
             }
-        }
-
-        private void HandleScaleSuccess()
-        {
-            Debug.Log("Scale completed successfully.");
-        }
-
-        private void HandleScaleFailure()
-        {
-            Debug.Log("Scale operation unsuccessful.");
         }
         
         #if UNITY_EDITOR
