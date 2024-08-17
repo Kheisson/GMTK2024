@@ -12,7 +12,7 @@ namespace _Scripts.Ui.Popups
         private UiManager _uiManager;
         
         private UiManager UiManager => _uiManager ??= ServiceLocator.GetService<UiManager>();
-
+        
         public PopupManager(PopupCollection collection)
         {
             _popupCollection = collection;
@@ -21,7 +21,7 @@ namespace _Scripts.Ui.Popups
         public async UniTask ShowPopupAsync(EPopup id)
         {
             var popupPrefab = _popupCollection.GetPopup(id);
-            if (popupPrefab == null) return;
+            if (popupPrefab == null || IsPopupOpen(popupPrefab)) return;
 
             var popupInstance = Object.Instantiate(popupPrefab, UiManager.GetSettingsCanvas().gameObject.transform);
             
@@ -33,6 +33,7 @@ namespace _Scripts.Ui.Popups
             _popups.Push(popupInstance);
             popupInstance.gameObject.SetActive(true);
             await popupInstance.ShowAsync();
+            Time.timeScale = 0;
         }
 
         public async UniTask ClosePopupAsync()
@@ -49,6 +50,10 @@ namespace _Scripts.Ui.Popups
                 _popups.Peek().gameObject.SetActive(true);
             }
         }
+        
+        private bool IsPopupOpen(PopupView popupPrefab)
+        {
+            return _popups.Count > 0 && _popups.Peek().GetType() == popupPrefab.GetType();
+        }
     }
-
 }
