@@ -55,7 +55,6 @@ namespace _Scripts.Ui
 
         private void AddBlackBackgroundScreen()
         {
-            Time.timeScale = 0;
             var blackBackground = new GameObject("BlackBackground", typeof(Image));
             blackBackground.transform.SetParent(settingsCanvas.transform);
             blackBackground.transform.SetAsFirstSibling();
@@ -66,8 +65,6 @@ namespace _Scripts.Ui
         
         private void RemoveBlackBackgroundScreen()
         {
-            Time.timeScale = 1;
-            
             var blackBackground = settingsCanvas.transform.Find("BlackBackground");
             
             if (blackBackground != null)

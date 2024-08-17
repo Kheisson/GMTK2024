@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using _Scripts.Infra;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace _Scripts.Ui.Popups
@@ -38,8 +39,9 @@ namespace _Scripts.Ui.Popups
 
             _popups.Push(popupInstance);
             popupInstance.gameObject.SetActive(true);
-            await popupInstance.ShowAsync();
             OnPopupOpen?.Invoke();
+            await popupInstance.ShowAsync();
+            Time.timeScale = 0;
         }
 
         public async UniTask ClosePopupAsync()
