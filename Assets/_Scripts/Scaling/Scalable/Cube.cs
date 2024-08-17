@@ -139,21 +139,5 @@ namespace Scaling.Scalable
                 _outlineFx.Color = activate ? activeColor : inactiveColor;
             }
         }
-
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.TryGetComponent(out IPlayer player))
-            {
-                ActivateOutline(true);
-            }
-        }
-
-        private void OnCollisionExit2D(Collision2D other)
-        {
-            if (other.gameObject.TryGetComponent(out IPlayer player))
-            {
-                ActivateOutline(false);
-            }
-        }
     }
 }
