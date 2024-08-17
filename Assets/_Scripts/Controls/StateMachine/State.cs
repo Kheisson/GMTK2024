@@ -1,3 +1,4 @@
+using UnityEngine;
 using Utils;
 
 namespace Controls.StateMachine
@@ -8,6 +9,7 @@ namespace Controls.StateMachine
         protected int _xInput;
         protected bool _isGrounded;
         protected bool _isJumpInput;
+        protected float _stateEntryTime;
         protected FiniteStateMachine _stateMachine;
             
         public State(PlayerResources playerResources, FiniteStateMachine stateMachine)
@@ -18,7 +20,7 @@ namespace Controls.StateMachine
         
         public virtual void Enter()
         {
-            
+            _stateEntryTime = Time.time;
         }
 
         public virtual void OnUpdate()

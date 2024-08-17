@@ -10,5 +10,6 @@ namespace Controls
         [field: SerializeField] public float JumpForce { get; private set; }
         [field: SerializeField] public float MaxHorizontalMovementSpeed { get; private set; }
         [field: SerializeField] public float VariableHeightMultiplier { get; set; }
+        [field: SerializeField] public float CoyoteTime { get; private set; }
     }
 }
