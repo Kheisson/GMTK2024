@@ -344,7 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheck: {fileID: 1495491808}
-  groundCheckArea: {x: 0.3, y: 0.12}
+  groundCheckArea: {x: 0.48, y: 0.12}
 --- !u!114 &273906945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,7 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695e39bd7a4f4cb1be8632efa44167fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputStayTime: 0.1
+  inputStayTime: 0.07
 --- !u!1 &319984739
 GameObject:
   m_ObjectHideFlags: 0

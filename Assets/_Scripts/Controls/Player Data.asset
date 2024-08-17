@@ -17,3 +17,4 @@ MonoBehaviour:
   <JumpForce>k__BackingField: 12
   <MaxHorizontalMovementSpeed>k__BackingField: 5
   <VariableHeightMultiplier>k__BackingField: 0.5
+  <CoyoteTime>k__BackingField: 0.1
