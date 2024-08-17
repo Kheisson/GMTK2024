@@ -13,10 +13,12 @@ namespace Scaling.Scalable
         [SerializeField, ColorUsage(true, true)] private Color inactiveColor;
         [SerializeField] private float minScale = 1.0f;
         [SerializeField] private float overlapBoxThickness = 0.1f;
-        [SerializeField] private LayerMask collisionLayer; 
+        [SerializeField] private LayerMask collisionLayer;
+
         private readonly Collider2D[] _collisionResults = new Collider2D[10];
-        private Collider2D _collider2D;
+        private BoxCollider2D _collider2D;
         private OutlineFx.OutlineFx _outlineFx;
+        private SpriteRenderer _spriteRenderer;
         public event Action OnScaleSuccess;
         public event Action OnScaleFailure;
 
@@ -24,8 +26,9 @@ namespace Scaling.Scalable
         
         private void Awake()
         {
-            _collider2D = GetComponent<Collider2D>();
+            _collider2D = GetComponent<BoxCollider2D>();
             _outlineFx = GetComponent<OutlineFx.OutlineFx>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
         
         public void ScaleObject(Vector3 direction, float scaleAmount)
@@ -34,10 +37,10 @@ namespace Scaling.Scalable
             {
                 return;
             }
-            
-            var newScale = transform.localScale;
-            var scaleDelta = Vector3.zero;
 
+            var newScale = _collider2D.size;
+            var scaleDelta = Vector3.zero;
+            
             if (direction == Vector3.right)
             {
                 newScale.x = Mathf.Max(newScale.x + scaleAmount, minScale);
@@ -62,9 +65,20 @@ namespace Scaling.Scalable
             {
                 var token = this.GetCancellationTokenOnDestroy();
                 CanScale = false;
+                 
+                // Tween the size of the BoxCollider using an intermediate variable
                 
                 await UniTask.WhenAll(
-                    transform.DOScale(newScale, 0.5f).SetEase(Ease.InSine).WithCancellation(token),
+                    DOTween.To(() => (Vector3)_collider2D.size, value => 
+                    {
+                        _collider2D.size = value;
+                    }, (Vector3)newScale, 0.5f).SetEase(Ease.InSine).WithCancellation(token),
+                    
+                    DOTween.To(() => (Vector3)_spriteRenderer.size, value => 
+                    {
+                        _spriteRenderer.size = value;
+                    }, (Vector3)newScale, 0.5f).SetEase(Ease.InSine).WithCancellation(token),
+                    
                     transform.DOMove(newPosition, 0.5f).SetEase(Ease.InSine).WithCancellation(token)
                 );
 
@@ -88,8 +102,8 @@ namespace Scaling.Scalable
             switch (scaleAmount)
             {
                 case > 0 when WillCauseCollision(direction, scaleAmount):
-                case < 0 when (direction == Vector3.right && transform.localScale.x <= minScale) || 
-                              (direction == Vector3.up && transform.localScale.y <= minScale):
+                case < 0 when (direction == Vector3.right && _collider2D.size.x <= minScale) || 
+                              (direction == Vector3.up && _collider2D.size.y <= minScale):
                     return true;
                 default:
                     return false; 
