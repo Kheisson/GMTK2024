@@ -213,7 +213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundChecker: {fileID: 4562949832092002414}
   scalableChecker: {fileID: 3013541769051628751}
-  groundCheckArea: {x: 0.48, y: 0.12}
+  groundCheckArea: {x: 0.36, y: 0.12}
   cubeCheckDistance: 0.2
 --- !u!114 &7973191319231038269
 MonoBehaviour:
