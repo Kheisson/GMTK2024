@@ -179,7 +179,7 @@ MonoBehaviour:
   overlapBoxThickness: 0.15
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
 --- !u!114 &117178425931473771
 MonoBehaviour:
   m_ObjectHideFlags: 0
