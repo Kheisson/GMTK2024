@@ -14,6 +14,7 @@ namespace Scaling.Scalable
         [SerializeField, ColorUsage(true, true)] private Color activeColor;
         [SerializeField, ColorUsage(true, true)] private Color inactiveColor;
         [SerializeField] private float minScale = 1.0f;
+        [SerializeField, Range(0f, 1f)] private float scalingFactor = 0.99f;
         [SerializeField] private float overlapBoxThickness = 0.15f;
         [SerializeField] private LayerMask collisionLayer;
 
@@ -77,7 +78,7 @@ namespace Scaling.Scalable
                     DOTween.To(() => (Vector3)_collider2D.size, value => 
                     {
                         _collider2D.size = value;
-                    }, (Vector3)newScale, SCALING_DURATION).SetEase(Ease.InSine).WithCancellation(token),
+                    }, (Vector3)newScale * scalingFactor, SCALING_DURATION).SetEase(Ease.InSine).WithCancellation(token),
                     
                     DOTween.To(() => (Vector3)_spriteRenderer.size, value => 
                     {
