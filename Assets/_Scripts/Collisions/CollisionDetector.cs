@@ -4,21 +4,35 @@ using UnityEngine;
 
 namespace Collisions
 {
-    public class CollisionDetector : MonoBehaviour
+    public class CollisionDetector : MonoBehaviour, ISquashable
     {
+        [Header("Ground")]
         [SerializeField] private Transform groundChecker;
-        [SerializeField] private Transform scalableChecker;
         [SerializeField] private Vector2 groundCheckArea;
-        [SerializeField] private float cubeCheckDistance;
         [SerializeField] private LayerMask groundLayers;
+
+        [Header("Cubes")]
+        [SerializeField] private float cubeCheckDistance;
+        [SerializeField] private Transform scalableChecker;
+        
+        [Header("Hazards")]
+        [SerializeField] private Transform hazardChecker;
+        [SerializeField] private Vector2 hazardCheckArea;
+        [SerializeField] private LayerMask hazardLayers;
+        
+        private Collider2D _collider;
+        private bool _isSquashed;
+
+        private void Awake()
+        {
+            _collider = GetComponent<Collider2D>();
+        }
 
         public bool IsGrounded
         {
             get
             {
-                Vector2 pointA = (Vector2)groundChecker.position - Vector2.right * groundCheckArea.x;
-                Vector2 pointB = (Vector2)groundChecker.position + Vector2.right * groundCheckArea.x +
-                                 (Vector2.down) * groundCheckArea.y;
+                (Vector2 pointA, Vector3 pointB) = GetRect(groundChecker, groundCheckArea);
 
                 var hits = Physics2D.OverlapAreaAll(pointA, pointB, groundLayers);
                 foreach (var hit in hits)
@@ -49,6 +63,40 @@ namespace Collisions
             }
 
             return (null, null);
+        }
+
+        public bool IsDetectingHazard
+        {
+            get
+            {
+                if (_isSquashed)
+                {
+                    return true;
+                }
+                
+                (Vector2 pointA, Vector3 pointB) = GetRect(hazardChecker, hazardCheckArea);
+                Debug.DrawLine(pointA, pointB, Color.green);
+
+                if (Physics2D.OverlapArea(pointA, pointB, hazardLayers))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+        
+        private (Vector2, Vector2) GetRect(Transform checkerTransform, Vector2 area)
+        {
+            Vector2 pointA = (Vector2)checkerTransform.position - Vector2.right * area.x;
+            Vector2 pointB = (Vector2)checkerTransform.position + Vector2.right * area.x +
+                             (Vector2.down) * area.y;
+            return (pointA, pointB);
+        }
+        
+        public void Squash()
+        {
+            _isSquashed = true;
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using _Scripts.Audio;
 using _Scripts.Infra;
+using Collisions;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -14,15 +15,20 @@ namespace Scaling.Scalable
         
         [SerializeField, ColorUsage(true, true)] private Color activeColor;
         [SerializeField, ColorUsage(true, true)] private Color inactiveColor;
+        [SerializeField] private float squashingDistance = 0.2f;
         [SerializeField, Range(0.9f, 1f)] private float scalingFactor = 0.999f;
         [SerializeField] private float minScale = 1.0f;
         [SerializeField] private float overlapBoxThickness = 0.15f;
         [SerializeField] private LayerMask collisionLayer;
+        [SerializeField] private LayerMask squashingLayers;
+        [SerializeField] private float squashOffset = 0.1f;
+
 
         private readonly Collider2D[] _collisionResults = new Collider2D[10];
         private BoxCollider2D _collider2D;
         private OutlineFx.OutlineFx _outlineFx;
         private SpriteRenderer _spriteRenderer;
+        private Rigidbody2D _rigidbody;
         public event Action OnScaleSuccess;
         public event Action OnScaleFailure;
 
@@ -33,8 +39,9 @@ namespace Scaling.Scalable
             _collider2D = GetComponent<BoxCollider2D>();
             _outlineFx = GetComponent<OutlineFx.OutlineFx>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _rigidbody = GetComponent<Rigidbody2D>();
         }
-        
+
         public void ScaleObject(Vector3 direction, float scaleAmount)
         {
             if (!CanScale)
@@ -95,12 +102,48 @@ namespace Scaling.Scalable
                 );
                 
                 _collider2D.size = new Vector2(Mathf.RoundToInt(_collider2D.size.x) * scalingFactor, Mathf.RoundToInt(_collider2D.size.y) * scalingFactor);
+
+                TrySquashInDirection(direction);
                 
                 CanScale = true;
                 OnScaleSuccess?.Invoke();
             });
         }
-        
+
+        private void TrySquashInDirection(Vector3 direction)
+        {
+            var hits = Physics2D.BoxCastAll(transform.position, _collider2D.size, 0, direction, squashingDistance, squashingLayers);
+
+            if (hits == null)
+            {
+                return;
+            }
+            
+            AttemptToSquash(direction, hits);
+            
+        }
+
+        private void AttemptToSquash(Vector3 direction, RaycastHit2D[] hits)
+        {
+            var bounds = _collider2D.bounds;
+            var offsetBounds = new Bounds();
+            var offsetMin = bounds.min + new Vector3(squashOffset, squashOffset);
+            var offsetMax = bounds.max - new Vector3(squashOffset, squashOffset);
+            
+            offsetBounds.SetMinMax(offsetMin, offsetMax);
+
+            foreach (var hit in hits)
+            {
+                if (hit.collider.TryGetComponent<ISquashable>(out var squashable))
+                {
+                    if (offsetBounds.Contains(hit.transform.position))
+                    {
+                        squashable.Squash();
+                    }
+                }
+            }
+        }
+
         public void Deselect()
         {
             ActivateOutline(false);

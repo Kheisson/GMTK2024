@@ -45,6 +45,12 @@ namespace _Scripts.Ui.Popups
             await popupInstance.ShowAsync();
             Time.timeScale = 0;
         }
+        
+        public async UniTask ShowPopupAsync(EPopup id, string metadata)
+        {
+            await ShowPopupAsync(id);
+            // TODO: add logic here
+        }
 
         public async UniTask ClosePopupAsync()
         {

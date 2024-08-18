@@ -46,6 +46,12 @@ namespace Controls.StateMachine
             {
                 Jump();
             }
+
+            if (_playerResources.CollisionDetector.IsDetectingHazard)
+            {
+                _stateMachine.ChangeState(new DeathState(_playerResources, _stateMachine));
+                return;
+            }
             
             _playerMover.HandleFlipping(_xInput);
             
