@@ -12,6 +12,7 @@ namespace _Scripts.Ui.Popups
         [SerializeField] private Slider musicSlider;
         [SerializeField] private Button sfxButton;
         [SerializeField] private Slider sfxSlider;
+        [SerializeField] private Button restartButton;
         [SerializeField] private Sprite musicOnIcon;
         [SerializeField] private Sprite musicOffIcon;
         [SerializeField] private Sprite sfxOnIcon;
@@ -26,6 +27,7 @@ namespace _Scripts.Ui.Popups
             closeButton.onClick.AddListener(OnCloseButtonClick);
             musicButton.onClick.AddListener(OnMusicButtonClick);
             sfxButton.onClick.AddListener(OnSfxButtonClick);
+            restartButton.onClick.AddListener(OnRestartButtonClick);
             musicSlider.onValueChanged.AddListener(OnMusicSliderChange);
             sfxSlider.onValueChanged.AddListener(OnSfxSliderChange);
 
@@ -79,6 +81,12 @@ namespace _Scripts.Ui.Popups
                 sfxSlider.value = _audioManager.GetSfxVolume();
                 AudioManager.SaveSettings();
             }
+        }
+        
+        private async void OnRestartButtonClick()
+        {
+            var sceneLoader = ServiceLocator.GetService<SceneLoader>();
+            await sceneLoader.ReloadCurrentScene();
         }
 
         private void OnMusicSliderChange(float value)
