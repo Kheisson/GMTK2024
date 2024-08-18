@@ -2,6 +2,7 @@ using _Scripts.Carrier;
 using Collisions;
 using Controls.StateMachine;
 using Movement;
+using Player;
 using Scaling;
 using UnityEngine;
 
@@ -10,9 +11,10 @@ namespace Controls
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private PlayerData playerData;
+        [field: SerializeField] public EPlayerType PlayerType { get; private set; }
 
         private FiniteStateMachine _stateMachine;
-        
+
         private void Awake()
         {
             PlayerResources playerResources = new PlayerResources(
