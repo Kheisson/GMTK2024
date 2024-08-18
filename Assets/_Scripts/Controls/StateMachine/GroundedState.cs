@@ -69,11 +69,11 @@ namespace Controls.StateMachine
 
             if (_isScaleUpInput)
             {
-                _playerResources.Scaler.PerformScale(EScaleCommand.ScaleUp);
+                _playerResources.Scaler.PerformScale(EScaleCommand.ScaleUp, _playerMover.FacingDirection);
             }
             else if (_isScaleDownInput)
             {
-                _playerResources.Scaler.PerformScale(EScaleCommand.ScaleDown);
+                _playerResources.Scaler.PerformScale(EScaleCommand.ScaleDown, _playerMover.FacingDirection);
             } 
         }
     }

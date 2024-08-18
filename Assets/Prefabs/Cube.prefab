@@ -142,7 +142,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2851355958728881583}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   activeColor: {r: 0.41635847, g: 2, b: 0, a: 1}
   inactiveColor: {r: 1.9245284, g: 0.081701644, b: 0.081701644, a: 1}
   minScale: 1
-  overlapBoxThickness: 0.1
+  overlapBoxThickness: 0.15
   collisionLayer:
     serializedVersion: 2
     m_Bits: 4294967295

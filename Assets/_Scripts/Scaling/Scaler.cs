@@ -10,7 +10,7 @@ namespace Scaling
 
         private IScalable _scalableObject;
         
-        public void PerformScale(EScaleCommand scaleCommand)
+        public void PerformScale(EScaleCommand scaleCommand, int facingDirection)
         {
             if (_scalableObject == null)
             {
@@ -19,7 +19,7 @@ namespace Scaling
             
             var direction = scaleAbility switch
             {
-                EScaleAbility.ScaleX => Vector3.right,
+                EScaleAbility.ScaleX => facingDirection > 0 ? Vector3.right : Vector3.left,
                 EScaleAbility.ScaleY => Vector3.up,
                 _ => Vector3.zero,
             };
