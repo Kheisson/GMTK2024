@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using _Scripts.Infra;
 using Cysharp.Threading.Tasks;
 using Player;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Levels
 {
@@ -49,13 +49,10 @@ namespace Levels
 
         private void StartLevelTransition()
         {
-            UniTask.WaitForSeconds(levelEndDelaySeconds).ContinueWith(LoadNextLevel);
-        }
-
-        private void LoadNextLevel()
-        {
-            var currentActiveSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene(currentActiveSceneIndex + 1);
+            UniTask.WaitForSeconds(levelEndDelaySeconds).ContinueWith(() =>
+            {
+                ServiceLocator.GetService<SceneLoader>().LoadNextScene().Forget();
+            });
         }
     }
 }
