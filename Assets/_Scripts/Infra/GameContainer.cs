@@ -40,10 +40,12 @@ namespace _Scripts.Infra
             var audioManager = new AudioManager(audioMixer);
             var popupManager = new PopupManager(popupCollection);
             var scalerManager = new ScalerManager();
+            var sceneLoader = new SceneLoader();
 
             ServiceLocator.RegisterService(audioManager);
             ServiceLocator.RegisterService(popupManager);
             ServiceLocator.RegisterService(scalerManager);
+            ServiceLocator.RegisterService(sceneLoader);
             
             await InitializeUiManagerAsync();
         }
