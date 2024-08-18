@@ -16,7 +16,7 @@ namespace Controls
         private void Awake()
         {
             PlayerResources playerResources = new PlayerResources(
-                animator: GetComponent<Animator>(), 
+                animator: GetComponentInChildren<Animator>(), 
                 playerInputHandler: GetComponent<PlayerInputHandler>(),
                 playerMover: new PlayerMover(GetComponent<Rigidbody2D>()),
                 collisionDetector: GetComponent<CollisionDetector>(),
