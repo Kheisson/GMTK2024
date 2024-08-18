@@ -1,4 +1,6 @@
 using System;
+using _Scripts.Audio;
+using _Scripts.Infra;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -67,6 +69,9 @@ namespace Scaling.Scalable
             }
             
             var newPosition = transform.position + scaleDelta;
+            
+            var audioName = scaleAmount > 0 ? AudioConstants.SCALE_UP_KEY : AudioConstants.SCALE_DOWN_KEY;
+            ServiceLocator.GetService<AudioManager>().PlaySfx(audioName);
 
             UniTask.Void(async () =>
             {
