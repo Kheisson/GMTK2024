@@ -1,28 +1,29 @@
-name: Build and Upload Unity WebGL
+name: Build and Deploy to GitHub Pages
 
 on: [pull_request]
 
 jobs:
   build:
-    name: Build my project ✨
+    name: Build and Deploy Unity WebGL
     runs-on: ubuntu-latest
     steps:
-      # Checkout
+      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           lfs: true
 
-      # Cache
-      - uses: actions/cache@v3
+      # Cache the Library folder
+      - name: Cache Unity Library
+        uses: actions/cache@v3
         with:
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
             Library-
 
-      # Build
-      - name: Build project
+      # Build Unity project
+      - name: Build Unity WebGL
         uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -31,16 +32,10 @@ jobs:
         with:
           targetPlatform: WebGL
           buildPath: build/WebGL
-          customParameters: '-logFile build_logs.txt'
 
-      # Upload Build Artifact
-      - uses: actions/upload-artifact@v3
+      # Deploy to GitHub Pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          name: WebGL-Build
-          path: build/WebGL
-
-      # Upload Build Logs
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Build-Logs
-          path: build_logs.txt
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/WebGL
