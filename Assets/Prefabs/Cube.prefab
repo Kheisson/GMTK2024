@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6b763d18a8544fb80d92c1cd9b831a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeColor: {r: 0.41635847, g: 2, b: 0, a: 1}
+  activeColor: {r: 7.9999995, g: 7.5810437, b: 0, a: 1}
   inactiveColor: {r: 1.9245284, g: 0.081701644, b: 0.081701644, a: 1}
   minScale: 1
   overlapBoxThickness: 0.15

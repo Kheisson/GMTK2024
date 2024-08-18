@@ -36,11 +36,15 @@ namespace Collisions
 
         public IScalable GetScalableObject(int direction)
         {
-            var hits = Physics2D.RaycastAll(scalableChecker.position, Vector2.right * direction, cubeCheckDistance);
+            const float downwardCubeCheckDistance = 0.8f;
+            var horizontalHits = Physics2D.RaycastAll(scalableChecker.position, Vector2.right * direction, cubeCheckDistance);
+            var downwardHits = Physics2D.RaycastAll(scalableChecker.position, Vector2.down, downwardCubeCheckDistance); 
+            var hits = horizontalHits.Concat(downwardHits);
             var scalable = hits.FirstOrDefault(hit => hit.collider.gameObject.name.Contains(nameof(Cube)));
 
-            return scalable? scalable.collider.GetComponent<IScalable>() : null;
+            return scalable ? scalable.collider.GetComponent<IScalable>() : null;
         }
+
         
         public GameObject GetScalableGameObject(int direction)
         {
