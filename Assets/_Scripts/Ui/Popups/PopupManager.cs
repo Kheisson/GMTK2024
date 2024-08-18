@@ -26,14 +26,21 @@ namespace _Scripts.Ui.Popups
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
-        public async UniTask ShowPopupAsync(EPopup id)
+        public async UniTask ShowPopupAsync(EPopup id, string metadata = null)
         {
-            var popupPrefab = _popupCollection.GetPopup(id);
+            if (_popups.Count > 0) return;
             
+            var popupPrefab = _popupCollection.GetPopup(id);
+    
             if (popupPrefab == null || IsPopupOpen(popupPrefab)) return;
 
             var popupInstance = Object.Instantiate(popupPrefab, UiManager.GetSettingsCanvas().gameObject.transform);
-            
+    
+            if (metadata != null)
+            {
+                popupInstance.SetMetadata(metadata);
+            }
+    
             if (_popups.Count > 0)
             {
                 _popups.Peek().gameObject.SetActive(false);
@@ -44,12 +51,6 @@ namespace _Scripts.Ui.Popups
             OnPopupOpen?.Invoke();
             await popupInstance.ShowAsync();
             Time.timeScale = 0;
-        }
-        
-        public async UniTask ShowPopupAsync(EPopup id, string metadata)
-        {
-            await ShowPopupAsync(id);
-            // TODO: add logic here
         }
 
         public async UniTask ClosePopupAsync()

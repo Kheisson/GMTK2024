@@ -10,6 +10,7 @@ namespace _Scripts.Ui.Popups
         private const float MOVE_DURATION = 0.75f;
         [SerializeField] private RectTransform popupTransform;
         [SerializeField] private CanvasGroup canvasGroup;
+        protected string Metadata { get; private set; }
 
         public async UniTask ShowAsync()
         {
@@ -28,6 +29,13 @@ namespace _Scripts.Ui.Popups
             var fadeTask = canvasGroup.DOFade(0, FADE_DURATION).SetEase(Ease.OutQuad).AsyncWaitForCompletion().AsUniTask();
             
             await UniTask.WhenAll(moveTask, fadeTask);
+        }
+        
+        public void SetMetadata(string metadata)
+        {
+            gameObject.SetActive(false);
+            Metadata = metadata;
+            gameObject.SetActive(true);
         }
     }
 }
