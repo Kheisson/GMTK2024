@@ -216,6 +216,9 @@ MonoBehaviour:
   scalableChecker: {fileID: 3013541769051628751}
   groundCheckArea: {x: 0.36, y: 0.12}
   cubeCheckDistance: 0.2
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 136
 --- !u!114 &7973191319231038269
 MonoBehaviour:
   m_ObjectHideFlags: 0

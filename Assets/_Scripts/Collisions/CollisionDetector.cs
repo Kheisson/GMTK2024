@@ -10,6 +10,7 @@ namespace Collisions
         [SerializeField] private Transform scalableChecker;
         [SerializeField] private Vector2 groundCheckArea;
         [SerializeField] private float cubeCheckDistance;
+        [SerializeField] private LayerMask groundLayers;
 
         public bool IsGrounded
         {
@@ -19,7 +20,7 @@ namespace Collisions
                 Vector2 pointB = (Vector2)groundChecker.position + Vector2.right * groundCheckArea.x +
                                  (Vector2.down) * groundCheckArea.y;
 
-                var hits = Physics2D.OverlapAreaAll(pointA, pointB);
+                var hits = Physics2D.OverlapAreaAll(pointA, pointB, groundLayers);
                 foreach (var hit in hits)
                 {
                     if (hit.transform != transform)
@@ -36,7 +37,7 @@ namespace Collisions
 
         public (IScalable, ECollisionAxis?) GetScalableObject(int direction)
         {
-            Debug.DrawRay(scalableChecker.position, Vector2.right * direction * cubeCheckDistance, Color.red);
+            Debug.DrawRay(scalableChecker.position, Vector2.right * (direction * cubeCheckDistance), Color.red);
             var horizontalHits = Physics2D.RaycastAll(scalableChecker.position, Vector2.right * direction, cubeCheckDistance);
 
             var scalable = horizontalHits.FirstOrDefault(hit => hit.collider.gameObject.name.Contains(nameof(Cube)));
