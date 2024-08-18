@@ -16,13 +16,23 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.npm
+          ~/.cache
+        key: ${{ runner.os }}-unity-builder-${{ hashFiles('**/Packages/manifest.json') }}
+        restore-keys: |
+          ${{ runner.os }}-unity-builder-
+
     - name: Set up Unity
-      uses: game-ci/unity-setup@v2.0
+      uses: game-ci/unity-setup@v3
       with:
         unityVersion: 2022.3.3f1
 
     - name: Build WebGL
-      uses: game-ci/unity-builder@v2.0
+      uses: game-ci/unity-builder@v2
       with:
         targetPlatform: WebGL
 
