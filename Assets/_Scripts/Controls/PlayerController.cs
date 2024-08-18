@@ -24,7 +24,8 @@ namespace Controls
                 collisionDetector: GetComponent<CollisionDetector>(),
                 playerData: playerData,
                 scaler: GetComponent<Scaler>(),
-                carrier: GetComponent<Carrier>());
+                carrier: GetComponent<Carrier>(),
+                playerType: PlayerType);
 
             _stateMachine = new FiniteStateMachine();
             _stateMachine.Initialize(new GroundedState(playerResources, _stateMachine));

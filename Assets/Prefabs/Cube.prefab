@@ -123,7 +123,7 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 0.29, y: 0.44, z: 0.29, w: 0.74}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
@@ -175,12 +175,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeColor: {r: 7.9999995, g: 7.5810437, b: 0, a: 1}
   inactiveColor: {r: 1.9245284, g: 0.081701644, b: 0.081701644, a: 1}
+  squashingDistance: 0.2
   scalingFactor: 0.999
   minScale: 1
   overlapBoxThickness: 0.15
   collisionLayer:
     serializedVersion: 2
     m_Bits: 136
+  squashableLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  squashingLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  squashOffset: 0
 --- !u!114 &117178425931473771
 MonoBehaviour:
   m_ObjectHideFlags: 0

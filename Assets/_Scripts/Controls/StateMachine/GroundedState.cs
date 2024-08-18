@@ -32,6 +32,12 @@ namespace Controls.StateMachine
 
             _playerResources.Animator.SetFloat(AnimationConstants.X_VELOCITY_KEY, Mathf.Abs(_playerMover.Velocity.x));
             _playerResources.Animator.SetBool(AnimationConstants.GROUNDED_KEY, _isGrounded);
+            
+            if (_playerResources.CollisionDetector.IsDetectingHazard)
+            {
+                _stateMachine.ChangeState(new DeathState(_playerResources, _stateMachine));
+                return;
+            }
 
             if (_xInput != 0)
             {
