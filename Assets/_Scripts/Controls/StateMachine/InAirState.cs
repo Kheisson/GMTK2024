@@ -51,7 +51,7 @@ namespace Controls.StateMachine
                 _playerResources.PlayerData.MaxHorizontalMovementSpeed, _xInput);
             
             _playerResources.Scaler
-                .SetSelectedScalableObject(_playerResources.CollisionDetector.GetScalableObject(_playerMover.FacingDirection));
+                .UpdateScalableObject(_playerResources.CollisionDetector.GetScalableObject(_playerMover.FacingDirection));
         }
 
         private void Jump()

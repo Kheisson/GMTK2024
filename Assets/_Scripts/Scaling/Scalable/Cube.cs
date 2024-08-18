@@ -1,7 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Player;
 using UnityEngine;
 
 namespace Scaling.Scalable
@@ -145,22 +144,6 @@ namespace Scaling.Scalable
             {
                 _outlineFx.enabled = activate;
                 _outlineFx.Color = activate ? activeColor : inactiveColor;
-            }
-        }
-
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.TryGetComponent(out IPlayer player))
-            {
-                ActivateOutline(true);
-            }
-        }
-
-        private void OnCollisionExit2D(Collision2D other)
-        {
-            if (other.gameObject.TryGetComponent(out IPlayer player))
-            {
-                ActivateOutline(false);
             }
         }
     }
