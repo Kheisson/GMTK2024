@@ -1,43 +1,39 @@
-name: Build Unity WebGL
+name: Build and Upload Unity WebGL
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
   build:
+    name: Build my project ✨
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
 
-    - name: Cache
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/.npm
-          ~/.cache
-        key: ${{ runner.os }}-unity-builder-${{ hashFiles('**/Packages/manifest.json') }}
-        restore-keys: |
-          ${{ runner.os }}-unity-builder-
+      # Cache
+      - uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
 
-    - name: Set up Unity
-      uses: game-ci/unity-setup@v3
-      with:
-        unityVersion: 2022.3.3f1
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: WebGL
+          buildPath: build/WebGL
 
-    - name: Build WebGL
-      uses: game-ci/unity-builder@v2
-      with:
-        targetPlatform: WebGL
-
-    - name: Upload WebGL Build
-      uses: actions/upload-artifact@v2
-      with:
-        name: WebGL-Build
-        path: build/WebGL
+      # Upload Build Artifact
+      - uses: actions/upload-artifact@v3
+        with:
+          name: WebGL-Build
+          path: build/WebGL
