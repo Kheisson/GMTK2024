@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Scaling.Scalable
 {
@@ -12,7 +13,7 @@ namespace Scaling.Scalable
         
         [SerializeField, ColorUsage(true, true)] private Color activeColor;
         [SerializeField, ColorUsage(true, true)] private Color inactiveColor;
-        [SerializeField] private float scaleingFactor = 0.999f;
+        [SerializeField, Range(0.9f, 1f)] private float scalingFactor = 0.999f;
         [SerializeField] private float minScale = 1.0f;
         [SerializeField] private float overlapBoxThickness = 0.15f;
         [SerializeField] private LayerMask collisionLayer;
@@ -89,7 +90,7 @@ namespace Scaling.Scalable
                     transform.DOMove(newPosition, SCALING_DURATION).SetEase(Ease.InSine).WithCancellation(token)
                 );
                 
-                _collider2D.size = new Vector2(Mathf.RoundToInt(_collider2D.size.x) * scaleingFactor, Mathf.RoundToInt(_collider2D.size.y) * scaleingFactor);
+                _collider2D.size = new Vector2(Mathf.RoundToInt(_collider2D.size.x) * scalingFactor, Mathf.RoundToInt(_collider2D.size.y) * scalingFactor);
                 
                 CanScale = true;
                 OnScaleSuccess?.Invoke();
