@@ -9,6 +9,7 @@ namespace _Scripts.Ui
 {
     public class UiManager : MonoBehaviour
     {
+        private const string TITLE_SCENE_NAME = "TitleScene";
         private const string UI_SCENE_NAME = "UiScene";
         [SerializeField] private Canvas hudCanvas;
         [SerializeField] private Canvas settingsCanvas;
@@ -22,6 +23,8 @@ namespace _Scripts.Ui
                 ServiceLocator.GetService<PopupManager>().OnPopupOpen += AddBlackBackgroundScreen;
                 ServiceLocator.GetService<PopupManager>().OnPopupClose += RemoveBlackBackgroundScreen;
             }
+            
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private async UniTask LoadUiSceneAsync()
@@ -71,6 +74,20 @@ namespace _Scripts.Ui
             {
                 Destroy(blackBackground.gameObject);
             }
+        }
+        
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            CheckIfTitleScene();
+        }
+        
+        public void CheckIfTitleScene()
+        {
+            const string startMenuName = "StartMenu";
+            
+            var startMenu = hudCanvas.transform.Find(startMenuName);
+
+            startMenu.gameObject.SetActive(SceneManager.GetActiveScene().name == TITLE_SCENE_NAME);
         }
     }
 }
