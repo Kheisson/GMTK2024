@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _Scripts.Infra;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace _Scripts.Ui.Popups
@@ -22,6 +23,7 @@ namespace _Scripts.Ui.Popups
         public PopupManager(PopupCollection collection)
         {
             _popupCollection = collection;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         public async UniTask ShowPopupAsync(EPopup id)
@@ -63,6 +65,17 @@ namespace _Scripts.Ui.Popups
         private bool IsPopupOpen(PopupView popupPrefab)
         {
             return _popups.Count > 0 && _popups.Peek().GetType() == popupPrefab.GetType();
+        }
+        
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (mode == LoadSceneMode.Single)
+            {
+                while (_popups.Count > 0)
+                {
+                    ClosePopupAsync().Forget();
+                }
+            }
         }
     }
 }

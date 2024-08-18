@@ -29,6 +29,11 @@ namespace _Scripts.Ui
 
         private async UniTask LoadUiSceneAsync()
         {
+            if (SceneManager.GetSceneByName(UI_SCENE_NAME).isLoaded)
+            {
+                return;
+            }
+            
             var loadOperation = SceneManager.LoadSceneAsync(UI_SCENE_NAME, LoadSceneMode.Additive);
             await AwaitLoadScene(loadOperation);
             
@@ -79,15 +84,16 @@ namespace _Scripts.Ui
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             CheckIfTitleScene();
+            LoadUiSceneAsync().Forget();
         }
         
         public void CheckIfTitleScene()
         {
             const string startMenuName = "StartMenu";
             
-            var startMenu = hudCanvas.transform.Find(startMenuName);
+            var startMenu = hudCanvas?.transform.Find(startMenuName);
 
-            startMenu.gameObject.SetActive(SceneManager.GetActiveScene().name == TITLE_SCENE_NAME);
+            startMenu?.gameObject.SetActive(SceneManager.GetActiveScene().name == TITLE_SCENE_NAME);
         }
     }
 }
