@@ -406,6 +406,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8424597789250042533, guid: 0c5152ca61eca40de8afd12337cb7e3b, type: 3}
+      propertyPath: hazardLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8698219478725683707, guid: 0c5152ca61eca40de8afd12337cb7e3b, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -7481,7 +7485,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1080458843433071956, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.25
+      value: -8.5
       objectReference: {fileID: 0}
     - target: {fileID: 1080458843433071956, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7574,6 +7578,10 @@ PrefabInstance:
     - target: {fileID: 6074491278785338177, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6438180869682506923, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
+      propertyPath: hazardLayers.m_Bits
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6438180869682506923, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: squashingLayers.m_Bits
