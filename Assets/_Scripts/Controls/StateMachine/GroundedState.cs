@@ -35,7 +35,7 @@ namespace Controls.StateMachine
         {
             base.OnFixedUpdate();
 
-            _playerResources.Animator.SetFloat(AnimationConstants.X_VELOCITY_KEY, Mathf.Abs(_xInput));
+            _playerResources.Animator.SetFloat(AnimationConstants.X_VELOCITY_KEY, Mathf.Abs(_playerMover.Velocity.x));
             _playerResources.Animator.SetBool(AnimationConstants.GROUNDED_KEY, _isGrounded);
 
             if (_xInput != 0)
@@ -59,7 +59,6 @@ namespace Controls.StateMachine
             if (_isJumpInput)
             {
                 _playerMover.SetVelocityY(_playerResources.PlayerData.JumpForce);
-                _playerResources.Animator.SetTrigger(AnimationConstants.JUMP_TRIGGER);
                 _stateMachine.ChangeState(new InAirState(_playerResources, _stateMachine, true));
                 return;
             }

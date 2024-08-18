@@ -4,6 +4,6 @@ namespace Animations
     {
         public const string GROUNDED_KEY = "isGrounded";
         public const string X_VELOCITY_KEY = "xVelocity";
-        public const string JUMP_TRIGGER = "jump";
+        public const string Y_VELOCITY_KEY = "yVelocity";
     }
 }
