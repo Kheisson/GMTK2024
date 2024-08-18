@@ -53,6 +53,7 @@ namespace _Scripts.Infra
             var uiManagerInstance = Instantiate(uiManagerPrefab).GetComponent<UiManager>();
             await uiManagerInstance.Initialize();
             ServiceLocator.RegisterService(uiManagerInstance);
+            uiManagerInstance.CheckIfTitleScene();
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
