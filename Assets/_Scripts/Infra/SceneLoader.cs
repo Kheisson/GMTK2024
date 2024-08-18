@@ -34,6 +34,13 @@ namespace _Scripts.Infra
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             return currentSceneIndex < SceneManager.sceneCountInBuildSettings - 1;
         }
+        
+        public async UniTask ReloadCurrentScene()
+        {
+            Time.timeScale = 1;
+            var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            await LoadSceneAsync(currentSceneIndex);
+        }
 
         public async UniTask LoadNextScene()
         {

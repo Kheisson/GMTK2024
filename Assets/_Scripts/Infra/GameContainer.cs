@@ -52,7 +52,7 @@ namespace _Scripts.Infra
 
         private async UniTask InitializeUiManagerAsync()
         {
-            var uiManagerInstance = Instantiate(uiManagerPrefab).GetComponent<UiManager>();
+            var uiManagerInstance = Instantiate(uiManagerPrefab, transform).GetComponent<UiManager>();
             await uiManagerInstance.Initialize();
             ServiceLocator.RegisterService(uiManagerInstance);
             uiManagerInstance.CheckIfTitleScene();
