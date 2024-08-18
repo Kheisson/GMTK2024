@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1977586224994107708}
   - component: {fileID: 117178425931473771}
   - component: {fileID: 7258553125259362703}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ MonoBehaviour:
   overlapBoxThickness: 0.15
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 136
 --- !u!114 &117178425931473771
 MonoBehaviour:
   m_ObjectHideFlags: 0
