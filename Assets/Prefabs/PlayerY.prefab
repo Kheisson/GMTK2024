@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3322502734984924512, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
+      propertyPath: <PlayerType>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3545430054062358511, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: m_Name
       value: PlayerY

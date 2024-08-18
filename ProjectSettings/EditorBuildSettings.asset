@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UiScene.unity
     guid: 86f05b2888300433e9dd18e8e715cdee
+  - enabled: 1
+    path: Assets/Scenes/NirScene.unity
+    guid: ab81b371b40e74e5dbb7d88220cebe39
+  - enabled: 1
+    path: Assets/Scenes/IgorTesting.unity
+    guid: 968c5bac21de746a38be6c3cddcd448c
   m_configObjects: {}
