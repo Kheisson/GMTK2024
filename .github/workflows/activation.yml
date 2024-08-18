@@ -1,6 +1,6 @@
 name: Build and Upload Unity WebGL
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   build:
@@ -31,9 +31,16 @@ jobs:
         with:
           targetPlatform: WebGL
           buildPath: build/WebGL
+          customParameters: '-logFile build_logs.txt'
 
       # Upload Build Artifact
       - uses: actions/upload-artifact@v3
         with:
           name: WebGL-Build
           path: build/WebGL
+
+      # Upload Build Logs
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Build-Logs
+          path: build_logs.txt
