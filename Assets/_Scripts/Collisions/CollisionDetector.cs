@@ -10,7 +10,7 @@ namespace Collisions
         [SerializeField] private Transform scalableChecker;
         [SerializeField] private Vector2 groundCheckArea;
         [SerializeField] private float cubeCheckDistance;
-        
+
         public bool IsGrounded
         {
             get
@@ -20,7 +20,7 @@ namespace Collisions
                                  (Vector2.down) * groundCheckArea.y;
 
                 var hits = Physics2D.OverlapAreaAll(pointA, pointB);
-                foreach (Collider2D hit in hits)
+                foreach (var hit in hits)
                 {
                     if (hit.transform != transform)
                     {
@@ -34,24 +34,22 @@ namespace Collisions
             }
         }
 
-        public IScalable GetScalableObject(int direction)
+        public (IScalable, ECollisionAxis?) GetScalableObject(int direction)
         {
             const float downwardCubeCheckDistance = 0.8f;
             var horizontalHits = Physics2D.RaycastAll(scalableChecker.position, Vector2.right * direction, cubeCheckDistance);
-            var downwardHits = Physics2D.RaycastAll(scalableChecker.position, Vector2.down, downwardCubeCheckDistance); 
+            var downwardHits = Physics2D.RaycastAll(scalableChecker.position, Vector2.down, downwardCubeCheckDistance);
             var hits = horizontalHits.Concat(downwardHits);
+
             var scalable = hits.FirstOrDefault(hit => hit.collider.gameObject.name.Contains(nameof(Cube)));
 
-            return scalable ? scalable.collider.GetComponent<IScalable>() : null;
-        }
+            if (scalable.collider != null)
+            {
+                var hitDirection = horizontalHits.Contains(scalable) ? ECollisionAxis.Horizontal : ECollisionAxis.Vertical;
+                return (scalable.collider.GetComponent<IScalable>(), hitDirection);
+            }
 
-        
-        public GameObject GetScalableGameObject(int direction)
-        {
-            var hits = Physics2D.RaycastAll(scalableChecker.position, Vector2.right * direction, cubeCheckDistance);
-            var scalable = hits.FirstOrDefault(hit => hit.collider.gameObject.name.Contains(nameof(Cube)));
-
-            return scalable.collider?.gameObject;
+            return (null, null);
         }
     }
 }

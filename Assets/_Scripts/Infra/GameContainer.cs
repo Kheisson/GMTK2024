@@ -1,4 +1,5 @@
 using _Scripts.Audio;
+using _Scripts.Scaling;
 using _Scripts.Ui;
 using _Scripts.Ui.Popups;
 using UnityEngine;
@@ -38,9 +39,11 @@ namespace _Scripts.Infra
         {
             var audioManager = new AudioManager(audioMixer);
             var popupManager = new PopupManager(popupCollection);
+            var scalerManager = new ScalerManager();
 
             ServiceLocator.RegisterService(audioManager);
             ServiceLocator.RegisterService(popupManager);
+            ServiceLocator.RegisterService(scalerManager);
             
             await InitializeUiManagerAsync();
         }
