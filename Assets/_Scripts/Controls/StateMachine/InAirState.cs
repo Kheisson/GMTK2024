@@ -49,9 +49,6 @@ namespace Controls.StateMachine
             
             _playerMover.AddClampedXVelocity(_playerResources.PlayerData.InAirAcceleration,
                 _playerResources.PlayerData.MaxHorizontalMovementSpeed, _xInput);
-            
-            _playerResources.Scaler
-                .UpdateScalableObject(_playerResources.CollisionDetector.GetScalableObject(_playerMover.FacingDirection));
         }
 
         private void Jump()

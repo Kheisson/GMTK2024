@@ -36,12 +36,10 @@ namespace Collisions
 
         public (IScalable, ECollisionAxis?) GetScalableObject(int direction)
         {
-            const float downwardCubeCheckDistance = 0.8f;
+            Debug.DrawRay(scalableChecker.position, Vector2.right * direction * cubeCheckDistance, Color.red);
             var horizontalHits = Physics2D.RaycastAll(scalableChecker.position, Vector2.right * direction, cubeCheckDistance);
-            var downwardHits = Physics2D.RaycastAll(scalableChecker.position, Vector2.down, downwardCubeCheckDistance);
-            var hits = horizontalHits.Concat(downwardHits);
 
-            var scalable = hits.FirstOrDefault(hit => hit.collider.gameObject.name.Contains(nameof(Cube)));
+            var scalable = horizontalHits.FirstOrDefault(hit => hit.collider.gameObject.name.Contains(nameof(Cube)));
 
             if (scalable.collider != null)
             {
