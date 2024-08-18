@@ -49,17 +49,17 @@ namespace Scaling.Scalable
             if (direction == Vector3.right)
             {
                 newScale.x = Mathf.Max(newScale.x + scaleAmount, minScale);
-                scaleDelta = new Vector3(scaleAmount / 2f, 0, 0);
+                scaleDelta = new Vector3((scaleAmount * scalingFactor)/ 2f, 0, 0);
             }
             else if (direction == Vector3.left)
             {
                 newScale.x = Mathf.Max(newScale.x + scaleAmount, minScale);
-                scaleDelta = new Vector3(-scaleAmount / 2f, 0, 0);
+                scaleDelta = new Vector3((-scaleAmount * scalingFactor) / 2f, 0, 0);
             }
             else if (direction == Vector3.up)
             {
                 newScale.y = Mathf.Max(newScale.y + scaleAmount, minScale);
-                scaleDelta = new Vector3(0, scaleAmount / 2f, 0);
+                scaleDelta = new Vector3(0, (scaleAmount * scalingFactor) / 2f, 0);
             }
 
             if (ShouldScaleFail(direction, scaleAmount))

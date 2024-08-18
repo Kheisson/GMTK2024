@@ -1,3 +1,5 @@
+using _Scripts.Audio;
+using _Scripts.Infra;
 using Animations;
 using Movement;
 using UnityEngine;
@@ -53,6 +55,7 @@ namespace Controls.StateMachine
 
         private void Jump()
         {
+            ServiceLocator.GetService<AudioManager>().PlaySfx(AudioConstants.JUMP);
             _playerMover.SetVelocityY(_playerResources.PlayerData.JumpForce);
             _isJumping = true;
             _isCoyoteTimeActive = false;

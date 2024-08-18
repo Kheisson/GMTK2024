@@ -1,3 +1,5 @@
+using _Scripts.Audio;
+using _Scripts.Infra;
 using Animations;
 using Movement;
 using Scaling;
@@ -51,6 +53,7 @@ namespace Controls.StateMachine
 
             if (_isJumpInput)
             {
+                ServiceLocator.GetService<AudioManager>().PlaySfx(AudioConstants.JUMP);
                 _playerMover.SetVelocityY(_playerResources.PlayerData.JumpForce);
                 _stateMachine.ChangeState(new InAirState(_playerResources, _stateMachine, true));
                 return;
