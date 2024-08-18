@@ -20,15 +20,8 @@ namespace Controls.StateMachine
         public override void OnUpdate()
         {
             base.OnUpdate();
-            _isPickupInput = _playerResources.PlayerInputHandler.IsPickUpInput;
             _isScaleUpInput = _playerResources.PlayerInputHandler.IsScaleUpInput;
             _isScaleDownInput = _playerResources.PlayerInputHandler.IsScaleDownInput;
-            
-            if (_isPickupInput)
-            {
-                _playerResources.Carrier.ToggleCarry(_playerResources.CollisionDetector.GetScalableGameObject(_playerMover.FacingDirection));
-                _playerResources.PlayerInputHandler.IsPickUpInput = false;
-            }
         }
 
         public override void OnFixedUpdate()
@@ -64,7 +57,7 @@ namespace Controls.StateMachine
             }
             
             _playerResources.Scaler
-                .SetSelectedScalableObject(_playerResources.CollisionDetector.GetScalableObject(_playerMover.FacingDirection));
+                .UpdateScalableObject(_playerResources.CollisionDetector.GetScalableObject(_playerMover.FacingDirection));
 
             if (_isScaleUpInput)
             {
