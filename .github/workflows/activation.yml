@@ -1,8 +1,11 @@
 name: Unity WebGL Automatic Build 👽✨🚀
 
 on:
-  pull_request:
+  push:
     branches:
+      - 'main'
+  pull_request:
+    branches:    
       - 'main'
   workflow_dispatch:
 
@@ -20,7 +23,7 @@ jobs:
     name: Unity Build 👽
     runs-on: ubuntu-latest
     steps:
-      # Checkout (without LFS)
+      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -83,48 +86,55 @@ jobs:
           git config --global user.name "${{ secrets.GH_USERNAME }}"
           echo "Stash and reset"
           git add build/WebGL
-          git stash push build/WebGL
+          git stash push -m "Build stash" build/WebGL
           git stash list
           git reset --hard
           sudo git clean -d -x -f
 
-      # Clean gh-pages branch
-      - name: Clean gh-pages branch
+      # Clean up and force checkout of gh-pages branch
+      - name: Clean and checkout gh-pages branch
         run: |
           echo "Switching to gh-pages branch"
           git fetch origin
-          git switch -f gh-pages
           git reset --hard
-          sudo git clean -d -x -f
-          rm -r *
+          sudo git clean -fdx
+          git checkout -B gh-pages origin/gh-pages
+
+      # Clear and prepare gh-pages branch
+      - name: Clear and prepare gh-pages branch
+        run: |
+          sudo git clean -fdx
+          sudo rm -r *
           git add -A
-          git commit -m "Cleaning branch"
-          git push
+          git commit -m "Clearing old files"
+          git push origin gh-pages
 
       # Apply stashed files to gh-pages branch
       - name: Apply stashed files to gh-pages branch
         run: |
-          echo "Applying stash"
-          git stash apply stash@{0}
+          git stash apply "stash@{0}"
+          sudo rm -r build/WebGL
+          git add -A
+          git status
 
       # Copy files to root directory
       - name: Copy files to root directory
         run: |
           cd build/WebGL/WebGL
-          ls
-          cp -r * ../../../
+          sudo cp -r * ../../../
           cd ../../../
-          rm -r build
+          sudo rm -r build
           ls
           pwd
 
       # Commit and push deployment to gh-pages branch
       - name: Push deployment to gh-pages branch
         run: |
-          pwd
+          git config --global user.email "${{ secrets.GH_EMAIL }}"
+          git config --global user.name "${{ secrets.GH_USERNAME }}"
           git status
           git add -A
           git commit -m "Deployment"
-          git push
+          git push origin gh-pages
           git reset --hard
-          sudo git clean -d -x -f
+          sudo git clean -fdx
