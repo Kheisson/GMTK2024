@@ -168,24 +168,45 @@ namespace Scaling.Scalable
 
         private bool WillCauseCollision(Vector3 direction, float scaleAmount)
         {
-            var boxSize = Vector3.Scale(_collider2D.bounds.size, new Vector3(
-                direction == Vector3.right || direction == Vector3.left ? 1 : overlapBoxThickness,
-                direction == Vector3.up ? 1 : overlapBoxThickness,
-                1));
+            var originalSize = _collider2D.bounds.size;
+            var scaledSize = originalSize * 0.9f;
 
-            var boxCenter = transform.position + direction * scaleAmount / 1.5f;
+            var extendedSize = new Vector3(
+                direction.x != 0 ? scaledSize.x + 1 : scaledSize.x,
+                direction.y != 0 ? scaledSize.y + 1 : scaledSize.y,
+                originalSize.z
+            );
 
-            var hitCount = Physics2D.OverlapBoxNonAlloc(boxCenter, boxSize, 0f, _collisionResults, collisionLayer);
+            var boxCenter = _collider2D.bounds.center + direction * scaleAmount / 2;
+
+            var hitCount = Physics2D.OverlapBoxNonAlloc(boxCenter, extendedSize, 0f, _collisionResults, collisionLayer);
+
+            debugBoxCenter = boxCenter;
+            debugBoxSize = extendedSize;
+            shouldDrawDebugBox = true;
 
             for (var i = 0; i < hitCount; i++)
             {
                 if (_collisionResults[i].gameObject != gameObject)
                 {
-                    return true;  
+                    return true;
                 }
             }
 
-            return false;  
+            return false;
+        }
+        
+        private Vector3 debugBoxCenter;
+        private Vector3 debugBoxSize;
+        private bool shouldDrawDebugBox = false;
+        
+        void OnDrawGizmos()
+        {
+            if (shouldDrawDebugBox)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireCube(debugBoxCenter, debugBoxSize);
+            }
         }
         
         private void ActivateOutline(bool activate)

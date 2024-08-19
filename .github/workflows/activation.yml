@@ -1,32 +1,56 @@
-name: Build and Deploy to GitHub Pages
+name: Unity WebGL Automatic Build 👽✨🚀
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - 'main'
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
-    name: Build and Deploy Unity WebGL
+    name: Unity Build 👽
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repository
+      # Checkout (without LFS)
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          lfs: true
 
-      # Cache the Library folder
-      - name: Cache Unity Library
+      # Git LFS
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
         uses: actions/cache@v3
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard
+
+      # Cache Unity Library
+      - uses: actions/cache@v3
         with:
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
             Library-
 
-      # Build Unity project directly into build directory
-      - name: Build Unity WebGL
+      # Build Unity WebGL project
+      - name: Build project
         uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -35,6 +59,7 @@ jobs:
         with:
           targetPlatform: WebGL
           buildPath: build/WebGL
+          allowDirtyBuild: true
 
       # Zip the WebGL build
       - name: Zip WebGL build
@@ -42,54 +67,58 @@ jobs:
         with:
           args: zip -qq -r WebGL.zip build/WebGL
 
-      # Upload WebGL Build ZIP as artifact
-      - name: Upload WebGL Build ZIP
+      # Upload WebGL Build ZIP as an artifact
+      - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: WebGL-Build-ZIP
+          name: WebGL-Build
           path: WebGL.zip
 
-      # Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build/WebGL
+      # Stash build result and reset local changes
+      - name: Stash build result and reset local changes
+        run: |
+          echo "Applying initial configs"
+          sudo chown -R $USER:$USER build/WebGL
+          git config --global user.email "${{ secrets.GH_EMAIL }}"
+          git config --global user.name "${{ secrets.GH_USERNAME }}"
+          echo "Stash and reset"
+          git add build/WebGL
+          git stash push build/WebGL
+          git stash list
+          git reset --hard
+          sudo git clean -d -x -f
 
-      # Switch and clean gh-pages branch
+      # Clean gh-pages branch
       - name: Clean gh-pages branch
         run: |
           echo "Switching to gh-pages branch"
           git fetch origin
-          git switch gh-pages
+          git switch -f gh-pages
           git reset --hard
           sudo git clean -d -x -f
-          sudo rm -r *
+          rm -r *
           git add -A
           git commit -m "Cleaning branch"
           git push
 
-      # Apply stashed files (if any)
-      - name: Apply stashed files
+      # Apply stashed files to gh-pages branch
+      - name: Apply stashed files to gh-pages branch
         run: |
           echo "Applying stash"
-          if git stash list | grep -q 'stash@{0}'; then
-            git stash apply stash@{0}
-          else
-            echo "No stash to apply"
-          fi
+          git stash apply stash@{0}
 
-      # Move files to root directory
-      - name: Move files to root directory
+      # Copy files to root directory
+      - name: Copy files to root directory
         run: |
-          cd build/WebGL
-          sudo cp -r * ../../
-          cd ../../
-          sudo rm -r build
+          cd build/WebGL/WebGL
+          ls
+          cp -r * ../../../
+          cd ../../../
+          rm -r build
           ls
           pwd
-          
-      # Push deployment to gh-pages branch
+
+      # Commit and push deployment to gh-pages branch
       - name: Push deployment to gh-pages branch
         run: |
           pwd
