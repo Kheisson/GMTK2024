@@ -16,19 +16,18 @@ namespace Scaling.Scalable
         [SerializeField, ColorUsage(true, true)] private Color activeColor;
         [SerializeField, ColorUsage(true, true)] private Color inactiveColor;
         [SerializeField] private float squashingDistance = 0.2f;
-        [SerializeField, Range(0.9f, 1f)] private float scalingFactor = 0.999f;
         [SerializeField] private float minScale = 1.0f;
         [SerializeField] private float overlapBoxThickness = 0.15f;
         [SerializeField] private LayerMask collisionLayer;
         [SerializeField] private LayerMask squashingLayers;
         [SerializeField] private float squashOffset = 0.1f;
+        [SerializeField] private float scaleThreshold = 0.1f;
 
 
         private readonly Collider2D[] _collisionResults = new Collider2D[10];
         private BoxCollider2D _collider2D;
         private OutlineFx.OutlineFx _outlineFx;
         private SpriteRenderer _spriteRenderer;
-        private Rigidbody2D _rigidbody;
         public event Action OnScaleSuccess;
         public event Action OnScaleFailure;
 
@@ -39,7 +38,6 @@ namespace Scaling.Scalable
             _collider2D = GetComponent<BoxCollider2D>();
             _outlineFx = GetComponent<OutlineFx.OutlineFx>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _rigidbody = GetComponent<Rigidbody2D>();
         }
 
         public void ScaleObject(Vector3 direction, float scaleAmount)
@@ -55,7 +53,7 @@ namespace Scaling.Scalable
             if (direction == Vector3.right)
             {
                 newScale.x = Mathf.Max(newScale.x + scaleAmount, minScale);
-                scaleDelta = new Vector3((scaleAmount * scalingFactor)/ 2f, 0, 0);
+                scaleDelta = new Vector3((scaleAmount)/ 2f, 0, 0);
             }
             else if (direction == Vector3.left)
             {
@@ -100,8 +98,8 @@ namespace Scaling.Scalable
                     
                     transform.DOMove(newPosition, SCALING_DURATION).SetEase(Ease.InSine).WithCancellation(token)
                 );
-                
-                _collider2D.size = new Vector2(Mathf.RoundToInt(_collider2D.size.x) * scalingFactor, Mathf.RoundToInt(_collider2D.size.y) * scalingFactor);
+
+                _collider2D.size = new Vector2(Mathf.RoundToInt(_collider2D.size.x) - scaleThreshold, Mathf.RoundToInt(_collider2D.size.y) - scaleThreshold);
 
                 TrySquashInDirection(direction);
                 
