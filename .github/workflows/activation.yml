@@ -25,7 +25,7 @@ jobs:
           restore-keys: |
             Library-
 
-      # Build Unity project
+      # Build Unity project directly into build directory
       - name: Build Unity WebGL
         uses: game-ci/unity-builder@v4
         env:
@@ -34,23 +34,24 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: WebGL
-          buildPath: build/WebGL
-
-      # Upload WebGL Build as artifact
-      - name: Upload WebGL Build
-        uses: actions/upload-artifact@v3
-        with:
-          name: WebGL-Build
-          path: build/WebGL
-
-      # Move build files to the root directory
-      - name: Move build files to root
-        run: |
-          sudo mv build/WebGL/* .
+          buildPath: build
 
       # Deploy to GitHub Pages
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: build
+
+      # Zip the WebGL build
+      - name: Zip WebGL build
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r WebGL.zip build
+
+      # Upload WebGL Build ZIP as artifact
+      - name: Upload WebGL Build ZIP
+        uses: actions/upload-artifact@v3
+        with:
+          name: WebGL-Build-ZIP
+          path: WebGL.zip
