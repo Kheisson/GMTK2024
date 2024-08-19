@@ -58,5 +58,5 @@ MonoBehaviour:
   skipText: {fileID: 0}
   typingSpeed: 0.05
   fadeDuration: 1
-  betweenStepsDelay: 1
+  betweenStepsDelay: 1.5
   skipTextDisappearDelay: 2

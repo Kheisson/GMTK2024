@@ -97,15 +97,17 @@ namespace _Scripts.Ui
 
             if (mainImage.sprite != null)
             {
-                await FadeOut(mainImage);
-                await FadeOut(mainText);
+                await UniTask.WhenAll(
+                    FadeOut(mainImage),
+                    FadeOut(mainText));
             }
 
             mainImage.sprite = newImage;
             mainText.text = "";
 
-            await FadeIn(mainImage);
-            await FadeIn(mainText);
+            await UniTask.WhenAll(
+                FadeIn(mainImage),
+                FadeIn(mainText));
 
             _isFading = false;
         }
