@@ -1,6 +1,9 @@
 name: Build and Deploy to GitHub Pages
 
-on: [pull_request]
+on: [push, pull_request]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -33,9 +36,26 @@ jobs:
           targetPlatform: WebGL
           buildPath: build/WebGL
 
+      # Create a ZIP of the WebGL build
+      - name: Create ZIP of WebGL build
+        run: |
+          zip -r build/WebGL.zip build/WebGL
+
+      # Save ZIP artifact
+      - name: Upload WebGL Build ZIP
+        uses: actions/upload-artifact@v3
+        with:
+          name: WebGL-Build-ZIP
+          path: build/WebGL.zip
+
+      # Move build files to the root directory
+      - name: Move build files to root
+        run: |
+          mv build/WebGL/* .
+
       # Deploy to GitHub Pages
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build/WebGL
+          publish_dir: .
