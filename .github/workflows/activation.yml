@@ -1,9 +1,6 @@
 name: Unity WebGL Automatic Build 👽✨🚀
 
 on:
-  push:
-    branches:
-      - 'main'
   pull_request:
     branches:    
       - 'main'
@@ -52,7 +49,7 @@ jobs:
           restore-keys: |
             Library-
 
-      # Build Unity WebGL project
+      # Build Unity project
       - name: Build project
         uses: game-ci/unity-builder@v4
         env:
@@ -85,13 +82,13 @@ jobs:
           git config --global user.email "${{ secrets.GH_EMAIL }}"
           git config --global user.name "${{ secrets.GH_USERNAME }}"
           echo "Stash and reset"
-          git add build/WebGL
+          git add -f build/WebGL
           git stash push -m "Build stash" build/WebGL
           git stash list
           git reset --hard
           sudo git clean -d -x -f
 
-      # Clean up and force checkout of gh-pages branch
+      # Clean and check out gh-pages branch
       - name: Clean and checkout gh-pages branch
         run: |
           echo "Switching to gh-pages branch"
