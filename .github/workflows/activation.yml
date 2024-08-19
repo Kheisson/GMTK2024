@@ -81,9 +81,9 @@ jobs:
       - name: Stash build result and reset local changes
         run: |
           echo "Applying initial configs"
-          sudo chown -R $USER:$USER build/WebGL
           git config --global user.email "${{ secrets.GH_EMAIL }}"
           git config --global user.name "${{ secrets.GH_USERNAME }}"
+          sudo chown -R $USER:$USER build/WebGL
           echo "Stash and reset"
           git add -f build/WebGL
           git stash push -m "Build stash" build/WebGL
@@ -91,7 +91,7 @@ jobs:
           git reset --hard
           sudo git clean -d -x -f
 
-      # Clean and check out gh-pages branch
+      # Clean up and force checkout of gh-pages branch
       - name: Clean and checkout gh-pages branch
         run: |
           echo "Switching to gh-pages branch"
@@ -104,7 +104,7 @@ jobs:
       - name: Clear and prepare gh-pages branch
         run: |
           sudo git clean -fdx
-          sudo rm -r *
+          rm -r *
           git add -A
           git commit -m "Clearing old files"
           git push origin gh-pages
@@ -121,9 +121,9 @@ jobs:
       - name: Copy files to root directory
         run: |
           cd build/WebGL/WebGL
-          sudo cp -r * ../../../
+          cp -r * ../../../
           cd ../../../
-          sudo rm -r build
+          rm -r build
           ls
           pwd
 
