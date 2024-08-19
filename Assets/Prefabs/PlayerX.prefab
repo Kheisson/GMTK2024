@@ -302,7 +302,7 @@ MonoBehaviour:
   hazardCheckArea: {x: 0.4, y: 2}
   hazardLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!114 &7973191319231038269
 MonoBehaviour:
   m_ObjectHideFlags: 0
