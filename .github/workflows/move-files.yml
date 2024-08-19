@@ -18,11 +18,11 @@ jobs:
         with:
           ref: gh-pages
 
-      # Move files from WebGL to root
+      # Move files from WebGL to root using rsync
       - name: Move WebGL build to root directory
         run: |
-          mv WebGL/* .
-          rm -rf WebGL
+          sudo rsync -av --remove-source-files WebGL/ .
+          sudo rm -rf WebGL
 
       # Commit and push changes
       - name: Commit and push changes
