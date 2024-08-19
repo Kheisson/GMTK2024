@@ -34,20 +34,13 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: WebGL
-          buildPath: build
-
-      # Deploy to GitHub Pages
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build
+          buildPath: build/WebGL
 
       # Zip the WebGL build
       - name: Zip WebGL build
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r WebGL.zip build
+          args: zip -qq -r WebGL.zip build/WebGL
 
       # Upload WebGL Build ZIP as artifact
       - name: Upload WebGL Build ZIP
@@ -55,3 +48,25 @@ jobs:
         with:
           name: WebGL-Build-ZIP
           path: WebGL.zip
+
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/WebGL
+      
+      # Move files from WebGL to directory where '.nojekyll' is found
+      - name: Move WebGL build to location of .nojekyll
+        run: |
+          git clone --branch=gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
+          cd gh-pages
+          TARGET_DIR=$(sudo find . -name ".nojekyll" -exec dirname {} \;)
+          sudo rsync -av --remove-source-files ../build/WebGL/ $TARGET_DIR
+          sudo rm -rf ../build/WebGL
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Move WebGL build to location of .nojekyll"
+          git push origin gh-pages
