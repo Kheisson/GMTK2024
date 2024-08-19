@@ -339,7 +339,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""02de8a8d-2464-4026-a130-d5ae0c03ad13"",
-                    ""path"": ""<Keyboard>/period"",
+                    ""path"": ""<Keyboard>/k"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -350,7 +350,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4888630f-9758-4a17-8742-19350c5ffe6f"",
-                    ""path"": ""<Keyboard>/comma"",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
