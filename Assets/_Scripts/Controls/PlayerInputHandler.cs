@@ -27,6 +27,11 @@ namespace Controls
             _playerInput = GetComponent<PlayerInput>();
         }
 
+        private void Start()
+        {
+            _bindingsManager = ServiceLocator.GetService<KeyBindingsManager>();
+        }
+
         // invoked via unity event
         public void OnMovePerformed(InputAction.CallbackContext context)
         {

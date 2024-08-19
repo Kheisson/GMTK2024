@@ -45,37 +45,42 @@ namespace Controls
         private void OnEnable()
         {
             var bindingsManager = ServiceLocator.GetService<KeyBindingsManager>();
-            OnCurrentActiveUserChanged(bindingsManager.CurrentActivePlayer);
-            bindingsManager.OnActivePlayerChanged += OnCurrentActiveUserChanged;
-            bindingsManager.OnBindingsChanged += SetupBindings;
+
+            if (bindingsManager.IsSharedBindings)
+            {
+                SetCurrentActiveUser(bindingsManager.CurrentActivePlayer);
+                bindingsManager.OnActivePlayerChanged += SetCurrentActiveUser;
+                bindingsManager.OnBindingsChanged += SetupBindings;
+            }
         }
 
         private void SetupBindings(bool isShared)
         {
-            if (!isShared)
+            if (isShared)
+            {
+                var currentActivePlayer = ServiceLocator.GetService<KeyBindingsManager>().CurrentActivePlayer;
+                _playerResources.PlayerInputHandler.SetBindingMap(InputConstants.SINGLEPLAYER_MAP);
+                _playerResources.PlayerInputHandler.SetActiveInput(PlayerType == currentActivePlayer);
+            }
+            else
             {
                 _playerResources.PlayerInputHandler.SetBindingMap(PlayerType == EPlayerType.X
                     ? InputConstants.PLAYER_X_MAP
                     : InputConstants.PLAYER_Y_MAP);
                 _playerResources.PlayerInputHandler.SetActiveInput(false);
             }
-            else
-            {
-                var currentActivePlayer = ServiceLocator.GetService<KeyBindingsManager>().CurrentActivePlayer;
-                _playerResources.PlayerInputHandler.SetBindingMap(InputConstants.SINGLEPLAYER_MAP);
-                _playerResources.PlayerInputHandler.SetActiveInput(PlayerType == currentActivePlayer);
-            }
         }
 
         private void OnDisable()
         {
             var bindingsManager = ServiceLocator.GetService<KeyBindingsManager>();
-            bindingsManager.OnActivePlayerChanged -= OnCurrentActiveUserChanged;
+            bindingsManager.OnActivePlayerChanged -= SetCurrentActiveUser;
             bindingsManager.OnBindingsChanged -= SetupBindings;
         }
 
-        private void OnCurrentActiveUserChanged(EPlayerType playerType)
+        private void SetCurrentActiveUser(EPlayerType playerType)
         {
+            Debug.Log("current active user changed to: " + playerType + "setting input to: " + (playerType == PlayerType));
             _playerResources.PlayerInputHandler.SetActiveInput(playerType == PlayerType);
         }
 
