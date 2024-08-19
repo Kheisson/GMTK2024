@@ -100,17 +100,6 @@ jobs:
           sudo git clean -fdx
           git checkout -B gh-pages origin/gh-pages
 
-      # Clear and prepare gh-pages branch
-      - name: Clear and prepare gh-pages branch
-        run: |
-          sudo git clean -fdx
-          rm -r *
-          git add -A
-          git commit -m "Clearing old files"
-          git push origin gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       # Apply stashed files to gh-pages branch
       - name: Apply stashed files to gh-pages branch
         run: |
@@ -123,9 +112,9 @@ jobs:
       - name: Copy files to root directory
         run: |
           cd build/WebGL/WebGL
-          cp -r * ../../../
+          sudo cp -r * ../../../
           cd ../../../
-          rm -r build
+          sudo rm -r build
           ls
           pwd
 
