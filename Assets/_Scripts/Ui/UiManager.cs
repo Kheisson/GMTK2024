@@ -65,7 +65,7 @@ namespace _Scripts.Ui
         {
             var blackBackground = new GameObject("BlackBackground", typeof(Image));
             blackBackground.transform.SetParent(settingsCanvas.transform);
-            blackBackground.transform.SetAsFirstSibling();
+            blackBackground.transform.SetSiblingIndex(1);
             blackBackground.GetComponent<Image>().color = new Color(0, 0, 0, 0.75f);
             blackBackground.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, Screen.height);
             blackBackground.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
