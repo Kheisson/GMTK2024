@@ -56,23 +56,24 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/WebGL
 
-      # Wait for deployment
-      - name: Wait for deployment
-        run: sleep 30 # This is just a safety wait to allow GitHub Pages hosting to update
-
       # Checkout the gh-pages branch
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
         with:
           ref: gh-pages
 
+      # Ensure gh-pages branch is checked out
+      - name: Verify Branch
+        run: |
+          echo "Currently on branch: $(git branch --show-current)"
+
       # Move WebGL build to location of .nojekyll
       - name: Move WebGL build to location of .nojekyll
         run: |
           TARGET_DIR=$(sudo find . -name ".nojekyll" -exec dirname {} \;)
-          echo "Moving files to ${TARGET_DIR}"
-          sudo rsync -av --remove-source-files build/WebGL/ $TARGET_DIR
-          sudo rm -rf build/WebGL
+          echo "Found .nojekyll in ${TARGET_DIR}"
+          sudo rsync -av --remove-source-files WebGL/ $TARGET_DIR/
+          sudo rm -rf WebGL
 
       # Ensure there are changes to commit
       - name: Check for changes
@@ -92,3 +93,12 @@ jobs:
           git push origin gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Wait and verify changes
+      - name: Sleep and Verify Changes
+        run: |
+          echo "Waiting for 30 seconds to ensure push is reflected"
+          sleep 30
+          git pull origin gh-pages
+          echo "Final directory structure:"
+          ls -R
