@@ -46,7 +46,7 @@ jobs:
       # Move build files to the root directory
       - name: Move build files to root
         run: |
-          mv build/WebGL/* .
+          sudo mv build/WebGL/* .
 
       # Deploy to GitHub Pages
       - name: Deploy
