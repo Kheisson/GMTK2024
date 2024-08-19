@@ -7,7 +7,8 @@ namespace _Scripts.Infra
     public class SceneLoader
     {
         private const string LAST_SCENE_KEY = "LastSceneIndex";
-
+        private const int UI_SCENE_INDEX = 1;
+        
         public async UniTask LoadSceneAsync(int sceneIndex)
         {
             var loadOperation = SceneManager.LoadSceneAsync(sceneIndex);
@@ -45,17 +46,23 @@ namespace _Scripts.Infra
         public async UniTask LoadNextScene()
         {
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            int nextSceneIndex = currentSceneIndex + 1;
 
-            if (HasNextScene())
+            // Skip the UI scene
+            if (nextSceneIndex == UI_SCENE_INDEX)
             {
-                var nextSceneIndex = currentSceneIndex + 1;
+                nextSceneIndex++;
+            }
+
+            if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+            {
                 SaveProgress(nextSceneIndex);
-                
                 await LoadSceneAsync(nextSceneIndex);
             }
             else
             {
-                Debug.LogError("No more scenes to load");
+                Debug.LogError("No more scenes to load, going back to TitleScene");
+                await LoadSceneAsync(0);
             }
         }
     }

@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: playerType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1131408780534662448, guid: a75390538570d4a8594e9fefd4f51f0b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3869301557868326179, guid: a75390538570d4a8594e9fefd4f51f0b, type: 3}
       propertyPath: m_Name
       value: EndY
@@ -68,6 +72,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: 7a72ced8ccbee4665a73ec2e7ab44676, type: 2}
+    - target: {fileID: 9213024442349518977, guid: a75390538570d4a8594e9fefd4f51f0b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c6fa8dff6cec68047aa32b067e235047, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
