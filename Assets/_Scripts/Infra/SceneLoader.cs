@@ -62,8 +62,15 @@ namespace _Scripts.Infra
             else
             {
                 Debug.LogError("No more scenes to load, going back to TitleScene");
+                DeleteProgress();
                 await LoadSceneAsync(0);
             }
+        }
+
+        private static void DeleteProgress()
+        {
+            PlayerPrefs.DeleteKey(LAST_SCENE_KEY);
+            PlayerPrefs.Save();
         }
     }
 }
