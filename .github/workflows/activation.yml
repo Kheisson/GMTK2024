@@ -70,7 +70,13 @@ jobs:
         with:
           name: WebGL-Build
           path: build/WebGL
-      
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build
+          
       # Wait for existing pages deployment to complete
       - name: Wait for GitHub Pages deployment
         env:
@@ -78,7 +84,7 @@ jobs:
         run: |
           echo "Waiting for GitHub Pages deployment to complete..."
           while gh api repos/${{ github.repository }}/actions/runs | jq -r '.workflow_runs[] | select(.name == "pages-build-deployment") | select(.status == "in_progress") | .id' | grep . > /dev/null; do echo "Waiting..."; sleep 10; done
-      
+          
       # Checkout the gh-pages branch
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
