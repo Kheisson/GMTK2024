@@ -2,6 +2,7 @@ using _Scripts.Audio;
 using _Scripts.Scaling;
 using _Scripts.Ui;
 using _Scripts.Ui.Popups;
+using Controls;
 using UnityEngine;
 using UnityEngine.Audio;
 using Cysharp.Threading.Tasks;
@@ -41,11 +42,13 @@ namespace _Scripts.Infra
             var popupManager = new PopupManager(popupCollection);
             var scalerManager = new ScalerManager();
             var sceneLoader = new SceneLoader();
+            var bindingsManager = new KeyBindingsManager();
 
             ServiceLocator.RegisterService(audioManager);
             ServiceLocator.RegisterService(popupManager);
             ServiceLocator.RegisterService(scalerManager);
             ServiceLocator.RegisterService(sceneLoader);
+            ServiceLocator.RegisterService(bindingsManager);
             
             await InitializeUiManagerAsync();
         }

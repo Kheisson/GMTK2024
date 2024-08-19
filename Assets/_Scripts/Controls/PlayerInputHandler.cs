@@ -1,26 +1,30 @@
+using System;
+using _Scripts.Infra;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace Controls
 {
     public class PlayerInputHandler : MonoBehaviour
     {
         [SerializeField] private float inputStayTime;
-        private bool _pickUpInputProcessed;
+        [SerializeField] private GameObject inputIndicator;
+        private PlayerInput _playerInput;
+
+        private KeyBindingsManager _bindingsManager;
         
         public int NormInputX { get; private set; }
         public bool JumpInput { get; private set; }
         public bool JumpInputStop { get; private set; }
         public bool IsScaleUpInput { get; private set; }
         public bool IsScaleDownInput { get; private set; }
-        public bool IsPickUpInput { get; set; }
-
         
         private float _jumpInputStartTime;
 
-        public PlayerInputHandler(bool isScaleUpInput)
+        private void Awake()
         {
-            IsScaleUpInput = isScaleUpInput;
+            _playerInput = GetComponent<PlayerInput>();
         }
 
         // invoked via unity event
@@ -69,19 +73,17 @@ namespace Controls
                 IsScaleDownInput = false;
             }
         }
+
+        public void OnSwitchPerformed(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                _bindingsManager.SwitchPlayer();
+            }
+        }
         
         public void OnPickUpPerformed(InputAction.CallbackContext context)
         {
-            if (context.performed && !_pickUpInputProcessed)
-            {
-                IsPickUpInput = true;
-                _pickUpInputProcessed = true;
-            }
-            else if (context.canceled)
-            {
-                IsPickUpInput = false;
-                _pickUpInputProcessed = false;
-            }
         }
 
         private void Update()
@@ -95,6 +97,26 @@ namespace Controls
             {
                 JumpInput = false;
             }
+        }
+
+        public void SetActiveInput(bool isActive)
+        {
+            if (!isActive)
+            {
+                NormInputX = 0;
+                IsScaleDownInput = false;
+                IsScaleUpInput = false;
+                JumpInput = false;
+            }
+
+            inputIndicator.SetActive(isActive);
+            _playerInput.enabled = isActive;
+        }
+
+        public void SetBindingMap(string playerMap)
+        {
+            _playerInput.enabled = true;
+            _playerInput.SwitchCurrentActionMap(playerMap);
         }
     }
 }

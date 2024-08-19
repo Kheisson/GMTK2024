@@ -118,6 +118,18 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.497496
       objectReference: {fileID: 0}
+    - target: {fileID: 4830873766339236019, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830873766339236019, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830873766339236019, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
+      propertyPath: m_Color.r
+      value: 0.3372549
+      objectReference: {fileID: 0}
     - target: {fileID: 4984852408285068704, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: scaleAbility
       value: 1
@@ -132,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6625598832793307550, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 10
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 6625598832793307550, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_ActionId
