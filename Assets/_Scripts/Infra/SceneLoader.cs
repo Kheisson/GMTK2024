@@ -7,7 +7,7 @@ namespace _Scripts.Infra
     public class SceneLoader
     {
         private const string LAST_SCENE_KEY = "LastSceneIndex";
-        private const int UI_SCENE_INDEX = 1;
+        private const int UI_SCENE_INDEX = 2;
         
         public async UniTask LoadSceneAsync(int sceneIndex)
         {

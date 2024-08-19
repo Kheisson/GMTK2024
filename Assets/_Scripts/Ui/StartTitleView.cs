@@ -20,7 +20,7 @@ namespace _Scripts.Ui
         {
             var lastPlayedSceneIndex = _sceneLoader.LoadProgress();
             
-            if (lastPlayedSceneIndex > 1)
+            if (lastPlayedSceneIndex > 2)
             {
                 _sceneLoader.LoadSceneAsync(lastPlayedSceneIndex).Forget();
             }
