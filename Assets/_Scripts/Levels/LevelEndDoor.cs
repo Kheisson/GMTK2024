@@ -1,4 +1,6 @@
 using System;
+using _Scripts.Audio;
+using _Scripts.Infra;
 using Animations;
 using Controls;
 using Player;
@@ -25,6 +27,7 @@ namespace Levels
             {
                 levelEndHandler.NotifyPlayerStateChanged(playerType, true);
                 _animator.SetBool(AnimationConstants.IS_PLATFORM_ON_KEY, true);
+                ServiceLocator.GetService<AudioManager>().PlaySfx(AudioConstants.PLATFORM_ON);
             }
         }
     
@@ -36,7 +39,7 @@ namespace Levels
             {
                 levelEndHandler.NotifyPlayerStateChanged(playerType, false);
                 _animator.SetBool(AnimationConstants.IS_PLATFORM_ON_KEY, false);
-
+                ServiceLocator.GetService<AudioManager>().PlaySfx(AudioConstants.PLATFORM_OFF);
             }
         }
     }
