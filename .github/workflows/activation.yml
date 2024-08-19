@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -63,82 +63,50 @@ jobs:
           targetPlatform: WebGL
           buildPath: build/WebGL
           allowDirtyBuild: true
-
-      # Zip the WebGL build
-      - name: Zip WebGL build
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r WebGL.zip build/WebGL
-
-      # Upload WebGL Build ZIP as an artifact
+      
+      # Upload WebGL Build ZIP as an artifact (optional)
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
         with:
           name: WebGL-Build
-          path: WebGL.zip
+          path: build/WebGL
 
-      # Stash build result and reset local changes
-      - name: Stash build result and reset local changes
+      # Install GitHub CLI
+      - name: Install GitHub CLI
         run: |
-          echo "Applying initial configs"
-          git config --global user.email "${{ secrets.GH_EMAIL }}"
-          git config --global user.name "${{ secrets.GH_USERNAME }}"
-          sudo chown -R $USER:$USER build/WebGL
-          echo "Stash and reset"
-          git add -f build/WebGL
-          git stash push -m "Build stash" build/WebGL
-          git stash list
-          git reset --hard
-          sudo git clean -d -x -f
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt-get update
+          sudo apt-get install gh
+      
+      # Wait for existing pages deployment to complete
+      - name: Wait for GitHub Pages deployment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Waiting for GitHub Pages deployment to complete..."
+          while gh api repos/${{ github.repository }}/actions/runs | jq -r '.workflow_runs[] | select(.name == "pages-build-deployment") | select(.status == "in_progress") | .id' | grep . > /dev/null; do echo "Waiting..."; sleep 10; done
+      
+      # Checkout the gh-pages branch
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: 'gh-pages'
+          fetch-depth: 0
 
-      # Clean up and force checkout of gh-pages branch
-      - name: Clean and checkout gh-pages branch
+      # Move WebGL build to root directory
+      - name: Move WebGL build to root directory
         run: |
-          echo "Switching to gh-pages branch"
-          git fetch origin
-          git reset --hard
-          sudo git clean -fdx
-          git checkout -B gh-pages origin/gh-pages
+          sudo cp -r build/WebGL/* ./
+          sudo rm -rf build/WebGL
 
-      # Clear and prepare gh-pages branch
-      - name: Clear and prepare gh-pages branch
-        run: |
-          sudo git clean -fdx
-          rm -r *
-          git add -A
-          git commit -m "Clearing old files"
-          git push origin gh-pages
+      # Commit and push changes
+      - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Apply stashed files to gh-pages branch
-      - name: Apply stashed files to gh-pages branch
-        run: |
-          git stash apply "stash@{0}"
-          sudo rm -r build/WebGL
-          git add -A
-          git status
-
-      # Copy files to root directory
-      - name: Copy files to root directory
-        run: |
-          cd build/WebGL/WebGL
-          cp -r * ../../../
-          cd ../../../
-          rm -r build
-          ls
-          pwd
-
-      # Commit and push deployment to gh-pages branch
-      - name: Push deployment to gh-pages branch
         run: |
           git config --global user.email "${{ secrets.GH_EMAIL }}"
           git config --global user.name "${{ secrets.GH_USERNAME }}"
-          git status
           git add -A
           git commit -m "Deployment"
           git push origin gh-pages
-          git reset --hard
-          sudo git clean -fdx
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
