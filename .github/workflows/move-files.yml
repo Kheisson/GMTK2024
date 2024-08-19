@@ -1,14 +1,11 @@
-name: Move Files to Root
+name: Test Move Files on gh-pages
 
 on:
   workflow_dispatch: # Allows manual triggering
-  push:
-    branches:
-      - gh-pages
 
 jobs:
   move:
-    name: Move WebGL Build to Root
+    name: Test Move WebGL Build to Location of .nojekyll
     runs-on: ubuntu-latest
 
     steps:
@@ -18,11 +15,21 @@ jobs:
         with:
           ref: gh-pages
 
-      # Move files from WebGL to root using rsync
-      - name: Move WebGL build to root directory
+      # Move WebGL build to location of .nojekyll
+      - name: Move WebGL build to location of .nojekyll
         run: |
-          sudo rsync -av --remove-source-files WebGL/ .
+          TARGET_DIR=$(sudo find . -name ".nojekyll" -exec dirname {} \;)
+          echo "Moving files to ${TARGET_DIR}"
+          sudo rsync -av --remove-source-files WebGL/ $TARGET_DIR
           sudo rm -rf WebGL
+
+      # Ensure there are changes to commit
+      - name: Check for changes
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes to commit"
+            exit 0
+          fi
 
       # Commit and push changes
       - name: Commit and push changes
@@ -30,7 +37,7 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add .
-          git commit -m "Move WebGL build to root directory"
+          git commit -m "Move WebGL build to location of .nojekyll"
           git push origin gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
