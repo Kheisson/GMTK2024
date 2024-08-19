@@ -108,6 +108,8 @@ jobs:
           git add -A
           git commit -m "Clearing old files"
           git push origin gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Apply stashed files to gh-pages branch
       - name: Apply stashed files to gh-pages branch
@@ -138,3 +140,5 @@ jobs:
           git push origin gh-pages
           git reset --hard
           sudo git clean -fdx
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
