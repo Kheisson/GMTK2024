@@ -70,9 +70,19 @@ jobs:
         with:
           name: WebGL-Build
           path: build/WebGL
+
+      # Install GitHub CLI
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt-get update
+          sudo apt-get install gh
       
       # Wait for existing pages deployment to complete
       - name: Wait for GitHub Pages deployment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Waiting for GitHub Pages deployment to complete..."
           while gh api repos/${{ github.repository }}/actions/runs | jq -r '.workflow_runs[] | select(.name == "pages-build-deployment") | select(.status == "in_progress") | .id' | grep . > /dev/null; do echo "Waiting..."; sleep 10; done
@@ -92,6 +102,8 @@ jobs:
 
       # Commit and push changes
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.email "${{ secrets.GH_EMAIL }}"
           git config --global user.name "${{ secrets.GH_USERNAME }}"
