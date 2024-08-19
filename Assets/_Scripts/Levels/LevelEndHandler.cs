@@ -12,6 +12,7 @@ namespace Levels
         [SerializeField] private float levelEndDelaySeconds = 0.5f;
         private bool _hasLevelFinished;
         private Dictionary<EPlayerType, bool> _playerStates;
+        public event Action OnLevelEnded;
 
         private void Awake()
         {
@@ -49,6 +50,7 @@ namespace Levels
 
         private void StartLevelTransition()
         {
+            OnLevelEnded?.Invoke();
             UniTask.WaitForSeconds(levelEndDelaySeconds).ContinueWith(() =>
             {
                 ServiceLocator.GetService<SceneLoader>().LoadNextScene().Forget();
