@@ -36,17 +36,12 @@ jobs:
           targetPlatform: WebGL
           buildPath: build/WebGL
 
-      # Create a ZIP of the WebGL build
-      - name: Create ZIP of WebGL build
-        run: |
-          zip -r build/WebGL.zip build/WebGL
-
-      # Save ZIP artifact
-      - name: Upload WebGL Build ZIP
+      # Upload WebGL Build as artifact
+      - name: Upload WebGL Build
         uses: actions/upload-artifact@v3
         with:
-          name: WebGL-Build-ZIP
-          path: build/WebGL.zip
+          name: WebGL-Build
+          path: build/WebGL
 
       # Move build files to the root directory
       - name: Move build files to root
