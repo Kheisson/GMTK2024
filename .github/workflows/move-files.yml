@@ -15,12 +15,34 @@ jobs:
         with:
           ref: gh-pages
 
+      # Debug step: List all files to understand the structure
+      - name: List all files before move
+        run: |
+          echo "Listing all files before moving:"
+          sudo ls -R
+
+      # Find the directory containing .nojekyll
+      - name: Find .nojekyll directory
+        id: findnojeykll
+        run: |
+          TARGET_DIR=$(sudo find . -name ".nojekyll" -exec dirname {} \;)
+          echo "TARGET_DIR=${TARGET_DIR}" >> $GITHUB_ENV
+          echo "Found .nojekyll in directory: ${TARGET_DIR}"
+      
+      # Debug step: Check TARGET_DIR value
+      - name: Check TARGET_DIR
+        run: |
+          echo "TARGET_DIR: ${{ env.TARGET_DIR }}"
+
       # Move WebGL build to location of .nojekyll
       - name: Move WebGL build to location of .nojekyll
         run: |
-          TARGET_DIR=$(sudo find . -name ".nojekyll" -exec dirname {} \;)
-          echo "Moving files to ${TARGET_DIR}"
-          sudo rsync -av WebGL/ $TARGET_DIR
+          if [ -z "${{ env.TARGET_DIR }}" ]; then
+            echo "TARGET_DIR is empty! Exiting..."
+            exit 1
+          fi
+          echo "Moving files to ${{ env.TARGET_DIR }}"
+          sudo rsync -av WebGL/ "${{ env.TARGET_DIR }}/"
 
       # Ensure there are changes to commit
       - name: Check for changes
