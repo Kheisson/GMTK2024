@@ -20,8 +20,7 @@ jobs:
         run: |
           TARGET_DIR=$(sudo find . -name ".nojekyll" -exec dirname {} \;)
           echo "Moving files to ${TARGET_DIR}"
-          sudo rsync -av --remove-source-files WebGL/ $TARGET_DIR
-          sudo rm -rf WebGL
+          sudo rsync -av WebGL/ $TARGET_DIR
 
       # Ensure there are changes to commit
       - name: Check for changes
