@@ -51,22 +51,44 @@ jobs:
 
       # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
-        id: deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/WebGL
-      
-      # Move files from WebGL to directory where '.nojekyll' is found
+
+      # Wait for deployment
+      - name: Wait for deployment
+        run: sleep 30 # This is just a safety wait to allow GitHub Pages hosting to update
+
+      # Checkout the gh-pages branch
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      # Move WebGL build to location of .nojekyll
       - name: Move WebGL build to location of .nojekyll
         run: |
-          git clone --branch=gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
-          cd gh-pages
           TARGET_DIR=$(sudo find . -name ".nojekyll" -exec dirname {} \;)
-          sudo rsync -av --remove-source-files ../build/WebGL/ $TARGET_DIR
-          sudo rm -rf ../build/WebGL
+          echo "Moving files to ${TARGET_DIR}"
+          sudo rsync -av --remove-source-files build/WebGL/ $TARGET_DIR
+          sudo rm -rf build/WebGL
+
+      # Ensure there are changes to commit
+      - name: Check for changes
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+      # Commit and push changes
+      - name: Commit and push changes
+        run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add .
           git commit -m "Move WebGL build to location of .nojekyll"
           git push origin gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
