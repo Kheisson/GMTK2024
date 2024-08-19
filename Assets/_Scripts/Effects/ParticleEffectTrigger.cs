@@ -5,6 +5,7 @@ namespace _Scripts.Effects
     public class ParticleEffectTrigger : MonoBehaviour
     {
         [SerializeField] private GameObject particleEffectPrefab;
+        [SerializeField] private float particleLifetime = 2f;
 
         public void TriggerParticleEffect()
         {
@@ -14,7 +15,8 @@ namespace _Scripts.Effects
                 return;
             }
 
-            Instantiate(particleEffectPrefab, transform.position, particleEffectPrefab.transform.rotation);
+            var particles = Instantiate(particleEffectPrefab, transform.position, particleEffectPrefab.transform.rotation);
+            Destroy(particles, particleLifetime);
         }
     }
 }

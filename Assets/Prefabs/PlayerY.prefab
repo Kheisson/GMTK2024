@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &152276345616648453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7663076216678979830}
+  - component: {fileID: 29319626307059682}
+  m_Layer: 0
+  m_Name: DustPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7663076216678979830
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152276345616648453}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.69, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1861457086089527067}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &29319626307059682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152276345616648453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d9906bc0e114ffab52eb0ce2f9c4c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 8182734621431835815, guid: 745e2ee12f2ec42f2be2e41a1ad46120, type: 3}
+  particleLifetime: 2
 --- !u!1001 &3293024603813582350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10,11 +56,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1080458843433071956, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.2267065
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 1080458843433071956, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.001572609
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 1080458843433071956, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -49,6 +95,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3322502734984924512, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
+      propertyPath: dustParticleEffectsTrigger
+      value: 
+      objectReference: {fileID: 29319626307059682}
+    - target: {fileID: 3322502734984924512, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: <PlayerType>k__BackingField
       value: 1
       objectReference: {fileID: 0}
@@ -71,6 +121,10 @@ PrefabInstance:
     - target: {fileID: 4984852408285068704, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: scaleAbility
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6438180869682506923, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
+      propertyPath: hazardLayers.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 6625598832793307550, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: m_DefaultActionMap
@@ -299,7 +353,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3926799053124303060, guid: f024764dde0a9904d9f4e9b21db7f93e, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 7663076216678979830}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4265316908165202406, guid: f024764dde0a9904d9f4e9b21db7f93e, type: 3}
       insertIndex: -1
@@ -323,6 +380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleEffectPrefab: {fileID: 2672854592168519841, guid: ae8a51830dc6c40f887d3712c17438af, type: 3}
+  particleLifetime: 2
 --- !u!4 &1861457086089527067 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3926799053124303060, guid: f024764dde0a9904d9f4e9b21db7f93e, type: 3}

@@ -41,9 +41,18 @@ namespace Controls.StateMachine
 
             if (_xInput != 0)
             {
+                
                 _playerMover.AddClampedXVelocity(_playerResources.PlayerData.GroundedAcceleration,  
                     _playerResources.PlayerData.MaxHorizontalMovementSpeed, _xInput);
+                
+                var prevFacingDirection = _playerMover.FacingDirection;
+
                 _playerMover.HandleFlipping(_xInput);
+
+                if (_playerMover.FacingDirection != prevFacingDirection)
+                {
+                    PlayDustParticles();
+                }
                 
             }
             else
@@ -76,6 +85,11 @@ namespace Controls.StateMachine
             {
                 _playerResources.Scaler.PerformScale(EScaleCommand.ScaleDown, _playerMover.FacingDirection);
             } 
+        }
+
+        private void PlayDustParticles()
+        {
+            _playerResources.DustEffectsTrigger.TriggerParticleEffect();
         }
     }
 }

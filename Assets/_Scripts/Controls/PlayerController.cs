@@ -1,4 +1,5 @@
 using _Scripts.Carrier;
+using _Scripts.Effects;
 using Collisions;
 using Controls.StateMachine;
 using Movement;
@@ -11,6 +12,7 @@ namespace Controls
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private PlayerData playerData;
+        [SerializeField] private ParticleEffectTrigger dustParticleEffectsTrigger;
         [field: SerializeField] public EPlayerType PlayerType { get; private set; }
 
         private FiniteStateMachine _stateMachine;
@@ -25,7 +27,8 @@ namespace Controls
                 playerData: playerData,
                 scaler: GetComponent<Scaler>(),
                 carrier: GetComponent<Carrier>(),
-                playerType: PlayerType);
+                playerType: PlayerType,
+                particleEffectTrigger: dustParticleEffectsTrigger);
 
             _stateMachine = new FiniteStateMachine();
             _stateMachine.Initialize(new GroundedState(playerResources, _stateMachine));

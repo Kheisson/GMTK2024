@@ -1,4 +1,5 @@
 using _Scripts.Carrier;
+using _Scripts.Effects;
 using Collisions;
 using Movement;
 using Player;
@@ -17,10 +18,11 @@ namespace Controls
         public Scaler Scaler { get; private set; }
         public Carrier Carrier { get; private set; }
         public EPlayerType PlayerType { get; private set; }
+        public ParticleEffectTrigger DustEffectsTrigger { get; set; }
 
         public PlayerResources(Animator animator, PlayerInputHandler playerInputHandler,
             PlayerMover playerMover, CollisionDetector collisionDetector, PlayerData playerData, Scaler scaler,
-            Carrier carrier, EPlayerType playerType)
+            Carrier carrier, EPlayerType playerType, ParticleEffectTrigger particleEffectTrigger)
         {
             Animator = animator;
             PlayerInputHandler = playerInputHandler;
@@ -29,7 +31,8 @@ namespace Controls
             PlayerData = playerData;
             Scaler = scaler;
             Carrier = carrier;
-            PlayerType = PlayerType;
+            PlayerType = playerType;
+            DustEffectsTrigger = particleEffectTrigger;
         }
     }
 }
