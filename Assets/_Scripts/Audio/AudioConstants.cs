@@ -2,6 +2,7 @@ namespace _Scripts.Audio
 {
     public class AudioConstants
     {
+        public const string WIN = "Win";
         public const string PLATFORM_ON = "PlatformOn";
         public const string PLATFORM_OFF = "PlatformOff";
         public const string JUMP = "Jump"; 
