@@ -1,4 +1,4 @@
-name: Unity WebGL Automatic Build 👽✨🚀
+name: Unity WebGL Automatic Build
 
 on:
   push:
