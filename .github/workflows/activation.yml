@@ -98,3 +98,20 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build
+
+       # Wait for 30 seconds
+      - name: Wait for 30 seconds
+        run: sleep 30
+      
+      # Find and move files to the root folder
+      - name: Find and move files to root
+        run: |
+          mv $(find . -type d -name 'Build') ./
+          mv $(find . -type f -name 'index.html') ./
+      
+      # Commit and Push changes using git-auto-commit-action
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Move Build folder and index.html to root"
+          branch: gh-pages
