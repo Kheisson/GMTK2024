@@ -1,5 +1,6 @@
 using _Scripts.Audio;
 using _Scripts.Infra;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ namespace _Scripts.Ui.Popups
         [SerializeField] private Button musicButton;
         [SerializeField] private Slider musicSlider;
         [SerializeField] private Button sfxButton;
+        [SerializeField] private Button bindingsButton;
         [SerializeField] private Slider sfxSlider;
         [SerializeField] private Button restartButton;
         [SerializeField] private Sprite musicOnIcon;
@@ -28,6 +30,7 @@ namespace _Scripts.Ui.Popups
             musicButton.onClick.AddListener(OnMusicButtonClick);
             sfxButton.onClick.AddListener(OnSfxButtonClick);
             restartButton.onClick.AddListener(OnRestartButtonClick);
+            bindingsButton.onClick.AddListener(OnBindingsButtonClick);
             musicSlider.onValueChanged.AddListener(OnMusicSliderChange);
             sfxSlider.onValueChanged.AddListener(OnSfxSliderChange);
 
@@ -36,6 +39,11 @@ namespace _Scripts.Ui.Popups
             _sfxButtonImage = sfxButton.GetComponent<Image>();
 
             LoadSettings();
+        }
+
+        private void OnBindingsButtonClick()
+        {
+            ServiceLocator.GetService<PopupManager>().ShowPopupAsync(EPopup.Layout).Forget();
         }
 
         private void LoadSettings()

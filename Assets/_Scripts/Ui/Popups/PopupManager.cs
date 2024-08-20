@@ -28,7 +28,11 @@ namespace _Scripts.Ui.Popups
 
         public async UniTask ShowPopupAsync(EPopup id, string metadata = null)
         {
-            if (_popups.Count > 0) return;
+            while (_popups.Count > 0)
+            {
+                Time.timeScale = 1;
+                await ClosePopupAsync();
+            }
             
             var popupPrefab = _popupCollection.GetPopup(id);
     
