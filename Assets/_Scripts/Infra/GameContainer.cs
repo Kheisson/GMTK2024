@@ -53,6 +53,11 @@ namespace _Scripts.Infra
             {
                 SwitchControl();
             }
+
+            if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                PlayerPrefs.DeleteAll();
+            }
         }
 
         private async UniTask InitializeServices()
