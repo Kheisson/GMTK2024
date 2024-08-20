@@ -1,3 +1,4 @@
+using _Scripts.Audio;
 using _Scripts.Infra;
 using _Scripts.Ui.Popups;
 using Animations;
@@ -14,6 +15,7 @@ namespace Controls.StateMachine
         public override void Enter()
         {
             _playerResources.Animator.SetTrigger(AnimationConstants.DEATH_KEY);
+            ServiceLocator.GetService<AudioManager>().PlaySfx(AudioConstants.LOSE);
             ServiceLocator.GetService<PopupManager>().ShowPopupAsync(EPopup.GameOver, metadata: _playerResources.PlayerType.ToString()).Forget();
         }
     }
