@@ -47,6 +47,7 @@ namespace Controls
 
         public void InitializeInput(string actionMapName)
         {
+            _currentActionMap?.Disable();
             Debug.Log($"Initializing Input for {gameObject.name} with ActionMap: {actionMapName}");
             _currentActionMap = _playerInput.actions.FindActionMap(actionMapName);
             _currentActionMap.Enable();
