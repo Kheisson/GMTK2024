@@ -1,7 +1,10 @@
-name: Test Move Files on gh-pages
+name: Move Files on gh-pages
 
 on:
-  workflow_dispatch: # Allows manual triggering
+  workflow_run:
+    workflows: ["Unity WebGL Automatic Build"]
+    types:
+      - completed
 
 jobs:
   move:
