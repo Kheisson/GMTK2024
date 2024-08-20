@@ -1,6 +1,7 @@
 using _Scripts.Infra;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace _Scripts.Ui.Popups
@@ -16,30 +17,40 @@ namespace _Scripts.Ui.Popups
             _multiPlayerButton.onClick.AddListener(OnMultiPlayerButtonClicked);
         }
         
-        private void OnSinglePlayerButtonClicked()
+        private async void OnSinglePlayerButtonClicked()
         {
             PlayerPrefs.SetInt("IsSinglePlayer", 1);
             PlayerPrefs.Save();
-            LoadScene();
+            await LoadScene();
         }
         
-        private void OnMultiPlayerButtonClicked()
+        private async void OnMultiPlayerButtonClicked()
         {
             PlayerPrefs.SetInt("IsSinglePlayer", 0);
             PlayerPrefs.Save();
-            LoadScene();
+            await LoadScene();
         }
 
-        private void LoadScene()
+        private async UniTask LoadScene()
         {
+            var sceneLoader = ServiceLocator.GetService<SceneLoader>();
+            
             if (GameContainer.Instance.InGameplayScene)
             {
-                ServiceLocator.GetService<SceneLoader>().ReloadCurrentScene().Forget();
+                await sceneLoader.ReloadCurrentScene();
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 1) //Cutscene
+            {
+                await ServiceLocator.GetService<PopupManager>().ClosePopupAsync();
+                Time.timeScale = 1;
+                return;
             }
             else
             {
-                ServiceLocator.GetService<SceneLoader>().LoadNextScene().Forget();
+                await sceneLoader.LoadNextScene();
             }
+            
+            await ServiceLocator.GetService<PopupManager>().ClosePopupAsync();
         }
     }
 }

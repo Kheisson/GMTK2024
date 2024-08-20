@@ -43,7 +43,6 @@ namespace _Scripts.Infra
         private void Start()
         {
             ServiceLocator.GetService<AudioManager>().LoadSettings();
-            SetupPlayers();
         }
 
         private void Update()
@@ -62,6 +61,7 @@ namespace _Scripts.Infra
             var popupManager = new PopupManager(popupCollection);
             var scalerManager = new ScalerManager();
             var sceneLoader = new SceneLoader();
+            SceneManager.sceneLoaded += OnSceneLoaded;
 
             ServiceLocator.RegisterService(audioManager);
             ServiceLocator.RegisterService(popupManager);
@@ -146,8 +146,16 @@ namespace _Scripts.Infra
                 _currentPlayer.OnSetInactive();
             }
 
-            _currentPlayer = _currentPlayer == _playerX ? _playerY.SetAsCurrentPlayer() : _playerX.SetAsCurrentPlayer();
+            _currentPlayer = _currentPlayer == _playerX ? _playerY?.SetAsCurrentPlayer() : _playerX?.SetAsCurrentPlayer();
             Debug.Log($"Current player after switch: {_currentPlayer?.name}");
+        }
+        
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (InGameplayScene && mode == LoadSceneMode.Single)
+            {
+                SetupPlayers();
+            }
         }
     }
 }

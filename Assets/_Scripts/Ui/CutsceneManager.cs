@@ -60,9 +60,11 @@ namespace _Scripts.Ui
 
         private async UniTask PlayCutscene()
         {
+            await UniTask.Yield();
+            await UniTask.WaitUntil(() => Mathf.Approximately(Time.timeScale, 1));
+            
             foreach (var step in cutsceneSteps)
             {
-
                 await ChangeImage(step.image);
                 await TypeText(step.text);
                 await UniTask.Delay(TimeSpan.FromSeconds(betweenStepsDelay));  
