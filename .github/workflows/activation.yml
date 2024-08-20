@@ -103,10 +103,13 @@ jobs:
       - name: Wait for 30 seconds
         run: sleep 30
       
+       # Ensure all files are writable
+      - name: Adjust permissions
+        run: sudo chmod -R u+w .
+      
       # Stash changes before checking out gh-pages branch
       - name: Stash changes
-        run: |
-          git stash -u
+        run: git stash -u
       
       # Force checkout gh-pages branch
       - name: Force checkout gh-pages branch
@@ -116,14 +119,13 @@ jobs:
       
       # Apply the stashed changes (if any)
       - name: Apply stashed changes
-        run: |
-          git stash pop || echo "No changes to apply from stash"
+        run: git stash pop || echo "No changes to apply from stash"
       
       # Find and move files to the root folder
       - name: Find and move files to root
         run: |
-          mv $(find . -type d -name 'Build') ./
-          mv $(find . -type f -name 'index.html') ./
+          sudo mv $(find . -type d -name 'Build') ./
+          sudo mv $(find . -type f -name 'index.html') ./
       
       # Commit and Push changes using git-auto-commit-action
       - name: Commit and Push changes
@@ -131,4 +133,3 @@ jobs:
         with:
           commit_message: "Move Build folder and index.html to root"
           branch: gh-pages
-
