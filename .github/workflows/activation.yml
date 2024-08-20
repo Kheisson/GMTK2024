@@ -99,9 +99,14 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build
 
-          # Wait for 30 seconds
+         # Wait for 30 seconds
       - name: Wait for 30 seconds
         run: sleep 30
+      
+      # Stash changes before checking out gh-pages branch
+      - name: Stash changes
+        run: |
+          git stash -u
       
       # Force checkout gh-pages branch
       - name: Force checkout gh-pages branch
@@ -109,11 +114,16 @@ jobs:
           git fetch origin gh-pages
           git checkout -B gh-pages origin/gh-pages
       
+      # Apply the stashed changes (if any)
+      - name: Apply stashed changes
+        run: |
+          git stash pop || echo "No changes to apply from stash"
+      
       # Find and move files to the root folder
       - name: Find and move files to root
         run: |
-          sudo mv $(find . -type d -name 'Build') ./
-          sudo mv $(find . -type f -name 'index.html') ./
+          mv $(find . -type d -name 'Build') ./
+          mv $(find . -type f -name 'index.html') ./
       
       # Commit and Push changes using git-auto-commit-action
       - name: Commit and Push changes
@@ -121,3 +131,4 @@ jobs:
         with:
           commit_message: "Move Build folder and index.html to root"
           branch: gh-pages
+
