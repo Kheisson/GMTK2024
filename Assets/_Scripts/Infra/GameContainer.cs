@@ -23,7 +23,8 @@ namespace _Scripts.Infra
         private PlayerController _playerY;
         private PlayerController _currentPlayer;
 
-        private bool InGameplayScene => SceneManager.GetActiveScene().buildIndex >= 3;
+        private bool IsSinglePlayer => PlayerPrefs.GetInt("IsSinglePlayer") == 1;
+        public bool InGameplayScene => SceneManager.GetActiveScene().buildIndex >= 3;
 
         private async void Awake()
         {
@@ -101,27 +102,38 @@ namespace _Scripts.Infra
         
         private void SetupPlayers()
         {
-            if (InGameplayScene)
+            if (InGameplayScene && IsSinglePlayer)
             {
-                Debug.Log("Setting up players");
+                Debug.Log("Setting up players singleplayer");
 
                 _playerX = GameObject.Find("PlayerX").GetComponent<PlayerController>();
                 _playerY = GameObject.Find("PlayerY").GetComponent<PlayerController>();
 
-                // Ensure both PlayerInput components are disabled initially
                 _playerX.GetComponent<PlayerInput>().enabled = false;
                 _playerY.GetComponent<PlayerInput>().enabled = false;
                 
                 _playerX?.InitializeInput("PlayerX");
                 _playerY?.InitializeInput("PlayerX");
 
-                // Set the current player and enable its input
                 _currentPlayer = _playerX;
+                
                 if (_currentPlayer != null)
                 {
                     _currentPlayer.SetAsCurrentPlayer();
                     Debug.Log($"Initial current player: {_currentPlayer.name}");
                 }
+            } else if (InGameplayScene && !IsSinglePlayer)
+            {
+                Debug.Log("Setting up players multiplayer");
+
+                _playerX = GameObject.Find("PlayerX").GetComponent<PlayerController>();
+                _playerY = GameObject.Find("PlayerY").GetComponent<PlayerController>();
+
+                _playerX.GetComponent<PlayerInput>().enabled = true;
+                _playerY.GetComponent<PlayerInput>().enabled = true;
+                
+                _playerX?.InitializeInput("PlayerX");
+                _playerY?.InitializeInput("PlayerY");
             }
         }
         

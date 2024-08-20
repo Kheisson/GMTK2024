@@ -166,6 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5409391449009925004}
   - component: {fileID: 8149074261629016257}
+  - component: {fileID: 8360139621714691767}
   m_Layer: 5
   m_Name: LayoutPopup
   m_TagString: Untagged
@@ -205,6 +206,22 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &8360139621714691767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5271125168589126080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43095cd6cfe4b8cab2ae3288c45dfb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupTransform: {fileID: 5409391449009925004}
+  canvasGroup: {fileID: 8149074261629016257}
+  _singlePlayerButton: {fileID: 7348265079580672226}
+  _multiPlayerButton: {fileID: 8020979282794423893}
 --- !u!1 &6362060448992459084
 GameObject:
   m_ObjectHideFlags: 0
