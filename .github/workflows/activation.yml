@@ -34,14 +34,12 @@ jobs:
         swap-storage: true
 
   build:
-    name: Unity Build 👽
+    name: Unity Build 
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Git LFS
       - name: Create LFS file list
         run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
 
@@ -58,7 +56,6 @@ jobs:
           git add .
           git reset --hard
 
-      # Cache Unity Library
       - uses: actions/cache@v3
         with:
           path: Library
@@ -74,7 +71,6 @@ jobs:
          docker rmi $(docker images -q)
          df -h
 
-      # Build Unity project
       - name: Build project
         uses: game-ci/unity-builder@v4
         env:
@@ -86,7 +82,6 @@ jobs:
           buildPath: build/WebGL
           allowDirtyBuild: true
       
-      # Upload WebGL Build ZIP as an artifact (optional)
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
         with:
