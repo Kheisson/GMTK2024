@@ -102,10 +102,10 @@ jobs:
          # Wait for 30 seconds
       - name: Wait for 30 seconds
         run: sleep 30
-      
-       # Ensure all files are writable
-      - name: Adjust permissions
-        run: sudo chmod -R u+w .
+
+      # Set shared repository configuration
+      - name: Set shared repository permissions
+        run: git config core.sharedRepository true
       
       # Stash changes before checking out gh-pages branch
       - name: Stash changes
