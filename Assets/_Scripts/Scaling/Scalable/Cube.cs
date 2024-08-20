@@ -17,7 +17,6 @@ namespace Scaling.Scalable
         [SerializeField, ColorUsage(true, true)] private Color inactiveColor;
         [SerializeField] private float squashingDistance = 0.2f;
         [SerializeField] private float minScale = 1.0f;
-        [SerializeField] private float overlapBoxThickness = 0.15f;
         [SerializeField] private LayerMask collisionLayer;
         [SerializeField] private LayerMask squashingLayers;
         [SerializeField] private float squashOffset = 0.1f;

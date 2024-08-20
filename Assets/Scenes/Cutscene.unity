@@ -915,8 +915,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 492612537}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
+      propertyPath: typingSpeed
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
+      propertyPath: fadeDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: betweenStepsDelay
-      value: 0.75
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: cutsceneSteps.Array.size
@@ -924,11 +932,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: cutsceneSteps.Array.data[0].text
-      value: 'Dev: GMTK game jam started! Time to create a new project!'
+      value: <color=red>Dev:</color> GMTK game jam started! Time to create a new
+        project!
       objectReference: {fileID: 0}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: cutsceneSteps.Array.data[1].text
-      value: Hmm... I think i'll go with 2D this time
+      value: <color=red>Dev:</color>  Hmm... I think i'll go with 2D this time
       objectReference: {fileID: 0}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: cutsceneSteps.Array.data[2].text
@@ -936,27 +945,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: cutsceneSteps.Array.data[3].text
-      value: 'Z: You hear that guys? "I''ll go with 2D this time".'
+      value: <color=#1E90FF>Z:</color> You hear that guys? "I'll go with 2D this
+        time".
       objectReference: {fileID: 0}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: cutsceneSteps.Array.data[4].text
-      value: I'm sick of it! you guys get all the credit!
+      value: <color=#1E90FF>Z:</color> I'm sick of it! you guys get all the credit!
       objectReference: {fileID: 0}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: cutsceneSteps.Array.data[5].text
-      value: I don't understand why they prefer you... You are so one-dimensional...
+      value: <color=#1E90FF>Z:</color> I don't understand why they prefer you...
+        You are so one-dimensional...
       objectReference: {fileID: 0}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: cutsceneSteps.Array.data[6].text
-      value: And you lack any depth!
+      value: <color=#1E90FF>Z:</color> And you lack any depth!
       objectReference: {fileID: 0}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: cutsceneSteps.Array.data[7].text
-      value: That's it! I'm breaking us up!
+      value: <color=#1E90FF>Z:</color> That's it! I'm breaking us up!
       objectReference: {fileID: 0}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: cutsceneSteps.Array.data[8].text
-      value: Huh?! Where did my dimensions go?
+      value: <color=red>Dev:</color> Huh?! Where did my dimensions go?
       objectReference: {fileID: 0}
     - target: {fileID: 7066959519000575545, guid: 6f08b8bace2124a8fae7439d94f30765, type: 3}
       propertyPath: cutsceneSteps.Array.data[0].image
