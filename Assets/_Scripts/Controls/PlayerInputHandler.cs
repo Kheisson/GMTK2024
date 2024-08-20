@@ -28,6 +28,11 @@ namespace Controls
         {
             var rawInput = context.ReadValue<Vector2>();
             NormInputX = Mathf.RoundToInt(rawInput.x);
+
+            if (context.phase == InputActionPhase.Disabled)
+            {
+                NormInputX = 0;
+            }
         }
         
         // invoked via unity event
@@ -40,7 +45,7 @@ namespace Controls
                 _jumpInputStartTime = Time.time;
             }
             
-            if (context.canceled)
+            if (context.canceled || context.phase == InputActionPhase.Disabled)
             {
                 JumpInputStop = true;
             }
@@ -52,7 +57,7 @@ namespace Controls
             {
                 IsScaleUpInput = true;
             }
-            else if (context.canceled)
+            else if (context.canceled || context.phase == InputActionPhase.Disabled)
             {
                 IsScaleUpInput = false;
             }
@@ -76,11 +81,6 @@ namespace Controls
             {
                 IsPickUpInput = true;
                 _pickUpInputProcessed = true;
-            }
-            else if (context.canceled)
-            {
-                IsPickUpInput = false;
-                _pickUpInputProcessed = false;
             }
         }
 

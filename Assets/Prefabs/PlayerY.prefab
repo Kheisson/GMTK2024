@@ -122,6 +122,10 @@ PrefabInstance:
       propertyPath: scaleAbility
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5594873980737940644, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8f656996bdf1b442587835859b734554, type: 3}
     - target: {fileID: 6438180869682506923, guid: 4c9f4a5b646d549c4a74f138169c6e5d, type: 3}
       propertyPath: hazardLayers.m_Bits
       value: 256
