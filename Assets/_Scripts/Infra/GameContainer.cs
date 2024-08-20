@@ -37,7 +37,7 @@ namespace _Scripts.Infra
 
         private async UniTask InitializeServices()
         {
-            var audioManager = new AudioManager(audioMixer);
+            var audioManager = new AudioManager(audioMixer, GetComponentInChildren<AudioSource>());
             var popupManager = new PopupManager(popupCollection);
             var scalerManager = new ScalerManager();
             var sceneLoader = new SceneLoader();
