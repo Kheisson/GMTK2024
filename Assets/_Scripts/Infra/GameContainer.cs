@@ -48,6 +48,8 @@ namespace _Scripts.Infra
 
         private void Update()
         {
+            if (!IsSinglePlayer) return;
+            
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 SwitchControl();
