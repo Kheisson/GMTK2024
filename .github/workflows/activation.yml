@@ -106,8 +106,8 @@ jobs:
       # Find and move files to the root folder
       - name: Find and move files to root
         run: |
-          mv $(find . -type d -name 'Build') ./
-          mv $(find . -type f -name 'index.html') ./
+          sudo mv $(find . -type d -name 'Build') ./
+          sudo mv $(find . -type f -name 'index.html') ./
       
       # Commit and Push changes using git-auto-commit-action
       - name: Commit and Push changes
