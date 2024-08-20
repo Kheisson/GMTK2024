@@ -65,6 +65,14 @@ jobs:
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
             Library-
+            
+      - name: Free Disk Space for Android
+        run: |
+         sudo swapoff -a
+         sudo rm -f /swapfile
+         sudo apt clean
+         docker rmi $(docker images -q)
+         df -h
 
       # Build Unity project
       - name: Build project
