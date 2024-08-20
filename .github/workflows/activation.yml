@@ -65,6 +65,14 @@ jobs:
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
             Library-
+            
+      - name: Free Disk Space for Android
+        run: |
+         sudo swapoff -a
+         sudo rm -f /swapfile
+         sudo apt clean
+         docker rmi $(docker images -q)
+         df -h
 
       # Build Unity project
       - name: Build project
@@ -90,3 +98,26 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build
+
+          # Wait for 30 seconds
+      - name: Wait for 30 seconds
+        run: sleep 30
+      
+      # Force checkout gh-pages branch
+      - name: Force checkout gh-pages branch
+        run: |
+          git fetch origin gh-pages
+          git checkout -B gh-pages origin/gh-pages
+      
+      # Find and move files to the root folder
+      - name: Find and move files to root
+        run: |
+          sudo mv $(find . -type d -name 'Build') ./
+          sudo mv $(find . -type f -name 'index.html') ./
+      
+      # Commit and Push changes using git-auto-commit-action
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Move Build folder and index.html to root"
+          branch: gh-pages

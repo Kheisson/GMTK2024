@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using _Scripts.Infra;
 using Cysharp.Threading.Tasks;
 using TMPro;
@@ -26,7 +27,6 @@ namespace _Scripts.Ui
         [SerializeField] private float skipTextDisappearDelay = 2.0f;
 
         private bool _isTyping = false;
-        private bool _isFading = false;
 
         private void Awake()
         {
@@ -77,24 +77,77 @@ namespace _Scripts.Ui
             ServiceLocator.GetService<SceneLoader>().LoadNextScene().Forget();
         }
 
+        private List<string> ParseRichTextSegments(string text)
+        {
+            var segments = new List<string>();
+            var index = 0;
+            
+            while (index < text.Length)
+            {
+                if (text[index] == '<')
+                {
+                    var endTagIndex = text.IndexOf('>', index);
+                    
+                    if (endTagIndex != -1)
+                    {
+                        var tag = text.Substring(index, endTagIndex - index + 1);
+                        segments.Add(tag);
+                        index = endTagIndex + 1;
+                    }
+                    else
+                    {
+                        segments.Add(text.Substring(index));
+                        break;
+                    }
+                }
+                else
+                {
+                    var nextTagIndex = text.IndexOf('<', index);
+                    
+                    if (nextTagIndex != -1)
+                    {
+                        var content = text.Substring(index, nextTagIndex - index);
+                        segments.Add(content);
+                        index = nextTagIndex;
+                    }
+                    else
+                    {
+                        segments.Add(text.Substring(index));
+                        break;
+                    }
+                }
+            }
+            return segments;
+        }
+
         private async UniTask TypeText(string text)
         {
             _isTyping = true;
             mainText.text = "";
 
-            foreach (var letter in text.ToCharArray())
+            var segments = ParseRichTextSegments(text);
+
+            foreach (var segment in segments)
             {
-                mainText.text += letter;
-                await UniTask.Delay(TimeSpan.FromSeconds(typingSpeed));
+                if (segment.StartsWith("<"))
+                {
+                    mainText.text += segment;
+                }
+                else
+                {
+                    foreach (var letter in segment.ToCharArray())
+                    {
+                        mainText.text += letter;
+                        await UniTask.Delay(TimeSpan.FromSeconds(typingSpeed));
+                    }
+                }
             }
-            
+
             _isTyping = false;
         }
-
+        
         private async UniTask ChangeImage(Sprite newImage)
         {
-            _isFading = true;
-
             if (mainImage.sprite != null)
             {
                 await UniTask.WhenAll(
@@ -108,8 +161,6 @@ namespace _Scripts.Ui
             await UniTask.WhenAll(
                 FadeIn(mainImage),
                 FadeIn(mainText));
-
-            _isFading = false;
         }
 
         private async UniTask FadeOut(Graphic graphic)

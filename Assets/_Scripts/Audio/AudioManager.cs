@@ -4,6 +4,7 @@ using _Scripts.Infra;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 namespace _Scripts.Audio
 {
@@ -18,16 +19,20 @@ namespace _Scripts.Audio
         private readonly AudioMixer _audioMixer;
         private readonly List<AudioSource> _audioSources = new List<AudioSource>();
         private readonly Queue<AudioSource> _audioSourcePool = new Queue<AudioSource>();
+        private readonly AudioSource _musicSource;
         private AudioClipCollection _audioClipCollection;
         private float _previousMusicVolume = 1f;
         private float _previousSfxVolume = 1f;
 
-        public AudioManager(AudioMixer audioMixer)
+        public AudioManager(AudioMixer audioMixer, AudioSource musicSource)
         {
             _audioMixer = audioMixer;
+            _musicSource = musicSource;
             LoadClipCollection();
             InitializePool();
             LoadSettings();
+            
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void InitializePool(int poolSize = 10)
@@ -201,6 +206,43 @@ namespace _Scripts.Audio
 
             var clipLength = clip.length;
             _ = UniTask.Delay((int)(clipLength * 1000)).ContinueWith(() => ReleaseAudioSource(source));
+        }
+        
+        private void PlayMainMusic(string clipName)
+        {
+            var clip = _audioClipCollection.GetClip(clipName);
+
+            if (clip == null)
+            {
+                Debug.LogError($"Clip with name {clipName} not found in the collection.");
+                return;
+            }
+            
+            if (_musicSource.clip == clip && _musicSource.isPlaying)
+            {
+                return;
+            }
+            
+            _musicSource.clip = clip;
+            _musicSource.Play();
+        }
+        
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            Debug.Log($"Scene loaded: {scene.name} with index: {scene.buildIndex}");
+            
+            const int uiSceneIndex = 2;
+            const int gameplaySceneIndex = 3;
+            
+            switch (scene.buildIndex)
+            {
+                case >= gameplaySceneIndex:
+                    PlayMainMusic(AudioConstants.GAMEPLAY_MUSIC);
+                    break;
+                case < uiSceneIndex:
+                    PlayMainMusic(AudioConstants.TITLE_MUSIC);
+                    break;
+            }
         }
     }
 }

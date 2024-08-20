@@ -8,5 +8,7 @@ namespace _Scripts.Audio
         public const string JUMP = "Jump"; 
         public const string SCALE_UP_KEY = "ScaleUp";
         public const string SCALE_DOWN_KEY = "ScaleDown";
+        public const string GAMEPLAY_MUSIC = "Gameplay";
+        public const string TITLE_MUSIC = "Title";
     }
 }
