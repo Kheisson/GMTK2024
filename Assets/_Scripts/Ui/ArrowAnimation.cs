@@ -7,7 +7,7 @@ namespace _Scripts.Ui
     {
         private void OnEnable()
         {
-            transform.DOMoveY(transform.position.y + 0.1f, 0.5f).SetLoops(-1, LoopType.Yoyo);
+            transform.DOLocalMoveY(transform.localPosition.y + 0.1f, 0.5f).SetLoops(-1, LoopType.Yoyo);
         }
         
         private void OnDisable()

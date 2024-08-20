@@ -1285,19 +1285,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1019452948}
   m_CullTransparentMesh: 1
---- !u!114 &1025824908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4265316908669566604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: babbe617b2ea4aa5b61e67f6b571b65c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startButton: {fileID: 0}
 --- !u!1 &1039155146
 GameObject:
   m_ObjectHideFlags: 0
@@ -3395,7 +3382,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1887304257803290660}
   - component: {fileID: 2284804668797512392}
-  - component: {fileID: 1025824908}
   m_Layer: 0
   m_Name: AnimationContainer
   m_TagString: Untagged

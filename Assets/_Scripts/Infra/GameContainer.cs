@@ -24,7 +24,7 @@ namespace _Scripts.Infra
         private PlayerController _currentPlayer;
 
         private bool IsSinglePlayer => PlayerPrefs.GetInt("IsSinglePlayer") == 1;
-        public bool InGameplayScene => SceneManager.GetActiveScene().buildIndex >= 3;
+        public bool InGameplayScene => SceneManager.GetActiveScene().buildIndex >= 3 && SceneManager.GetActiveScene().buildIndex < 10;
 
         private async void Awake()
         {
