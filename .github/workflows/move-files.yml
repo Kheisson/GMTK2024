@@ -20,45 +20,17 @@ jobs:
         run: |
           echo "Listing all files before moving:"
           sudo ls -R
-
-      # Find the directory containing .nojekyll
-      - name: Find .nojekyll directory
-        id: findnojeykll
-        run: |
-          TARGET_DIR=$(sudo find . -name ".nojekyll" -exec dirname {} \;)
-          echo "TARGET_DIR=${TARGET_DIR}" >> $GITHUB_ENV
-          echo "Found .nojekyll in directory: ${TARGET_DIR}"
       
-      # Debug step: Check TARGET_DIR value
-      - name: Check TARGET_DIR
+      # Find and move files to the root folder
+      - name: Find and move files to root
         run: |
-          echo "TARGET_DIR: ${{ env.TARGET_DIR }}"
-
-      # Move WebGL build to location of .nojekyll
-      - name: Move WebGL build to location of .nojekyll
-        run: |
-          if [ -z "${{ env.TARGET_DIR }}" ]; then
-            echo "TARGET_DIR is empty! Exiting..."
-            exit 1
-          fi
-          echo "Moving files to ${{ env.TARGET_DIR }}"
-          sudo rsync -av WebGL/ "${{ env.TARGET_DIR }}/"
-
-      # Ensure there are changes to commit
-      - name: Check for changes
-        run: |
-          if [ -z "$(git status --porcelain)" ]; then
-            echo "No changes to commit"
-            exit 0
-          fi
-
-      # Commit and push changes
-      - name: Commit and push changes
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .
-          git commit -m "Move WebGL build to location of .nojekyll"
-          git push origin gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          sudo mv $(find . -type d -name 'Build') ./
+          sudo mv $(find . -type f -name 'index.html') ./
+      
+      # Commit and Push changes using git-auto-commit-action
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Move Build folder and index.html to root"
+          branch: gh-pages
+          
